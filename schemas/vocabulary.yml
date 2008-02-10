@@ -61,3 +61,8 @@ VocabularyNodeType:
       primary: true
       notnull: true
       type: string(32)
+  relations:
+    Vocabulary:
+      local: vid
+      foreign: vid
+      foreignAlias: NodeTypes

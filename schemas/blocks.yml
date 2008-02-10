@@ -71,4 +71,4 @@ BlockRole:
     Role:
       local: rid
       foreign: rid
-      foreignAlias: Blocks
+      foreignAlias: BlockRoles

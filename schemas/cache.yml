@@ -23,31 +23,6 @@ Cache:
       default: 0
       notnull: true
       type: integer(2)
-  relations:
-    Blocks:
-      class: CacheBlock
-      local: cid
-      foreign: cid
-    Filters:
-      class: CacheFilter
-      local: cid
-      foreign: cid
-    Forms:
-      class: CacheForm
-      local: cid
-      foreign: cid
-    Menus:
-      class: CacheMenu
-      local: cid
-      foreign: cid
-    Pages:
-      class: CachePage
-      local: cid
-      foreign: cid
-    Updates:
-      class: CacheUpdate
-      local: cid
-      foreign: cid
 
 CacheBlock: 
   columns: 
@@ -73,6 +48,11 @@ CacheBlock:
       default: 0
       notnull: true
       type: integer(2)
+  relations:
+    Cache:
+      local: cid
+      foreign: cid
+      foreignAlias: Blocks
 
 CacheFilter: 
   columns: 
@@ -98,6 +78,11 @@ CacheFilter:
       default: 0
       notnull: true
       type: integer(2)
+  relations:
+    Cache:
+      local: cid
+      foreign: cid
+      foreignAlias: Filters
 
 CacheForm: 
   columns: 
@@ -123,6 +108,11 @@ CacheForm:
       default: 0
       notnull: true
       type: integer(2)
+  relations:
+    Cache:
+      local: cid
+      foreign: cid
+      foreignAlias: Forms
 
 CacheMenu: 
   columns: 
@@ -148,6 +138,11 @@ CacheMenu:
       default: 0
       notnull: true
       type: integer(2)
+  relations:
+    Cache:
+      local: cid
+      foreign: cid
+      foreignAlias: Menus
 
 CachePage: 
   columns: 
@@ -173,6 +168,11 @@ CachePage:
       default: 0
       notnull: true
       type: integer(2)
+  relations:
+    Cache:
+      local: cid
+      foreign: cid
+      foreignAlias: Pages
 
 CacheUpdate: 
   columns: 
@@ -198,3 +198,8 @@ CacheUpdate:
       default: 0
       notnull: true
       type: integer(2)
+  relations:
+    Cache:
+      local: cid
+      foreign: cid
+      foreignAlias: Updates

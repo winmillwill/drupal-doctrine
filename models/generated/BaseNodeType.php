@@ -77,8 +77,8 @@ abstract class BaseNodeType extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasMany('Node', array('local' => 'type',
-                                 'foreign' => 'type'));
+    $this->hasMany('Node as Nodes', array('local' => 'type',
+                                          'foreign' => 'type'));
   }
 
 }

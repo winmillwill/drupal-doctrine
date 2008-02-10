@@ -22,8 +22,8 @@ abstract class BaseRole extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasMany('BlockRole as Blocks', array('local' => 'rid',
-                                                'foreign' => 'rid'));
+    $this->hasMany('BlockRole as BlockRoles', array('local' => 'rid',
+                                                    'foreign' => 'rid'));
 
     $this->hasMany('Permission as Permissions', array('local' => 'rid',
                                                       'foreign' => 'rid'));
@@ -32,8 +32,8 @@ abstract class BaseRole extends Doctrine_Record
                                           'local' => 'rid',
                                           'foreign' => 'uid'));
 
-    $this->hasMany('UserRole', array('local' => 'rid',
-                                     'foreign' => 'rid'));
+    $this->hasMany('UserRole as UserRoles', array('local' => 'rid',
+                                                  'foreign' => 'rid'));
   }
 
 }

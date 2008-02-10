@@ -92,6 +92,8 @@ UserRole:
     User:
       local: uid
       foreign: uid
+      foreignAlias: UserRoles
     Role:
       local: rid
       foreign: rid
+      foreignAlias: UserRoles

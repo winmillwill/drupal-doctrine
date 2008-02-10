@@ -93,11 +93,11 @@ abstract class BaseNode extends Doctrine_Record
     $this->hasOne('User', array('local' => 'uid',
                                 'foreign' => 'uid'));
 
+    $this->hasOne('Vocabulary', array('local' => 'vid',
+                                      'foreign' => 'vid'));
+
     $this->hasMany('Comment as Comments', array('local' => 'nid',
                                                 'foreign' => 'nid'));
-
-    $this->hasMany('NodeCommentStatistic as CommentStatistics', array('local' => 'nid',
-                                                                      'foreign' => 'nid'));
 
     $this->hasMany('History', array('local' => 'nid',
                                     'foreign' => 'nid'));
@@ -108,15 +108,18 @@ abstract class BaseNode extends Doctrine_Record
     $this->hasMany('NodeCounter as Counters', array('local' => 'nid',
                                                     'foreign' => 'nid'));
 
-    $this->hasMany('NodeRevisions as Revisions', array('local' => 'nid',
-                                                       'foreign' => 'nid'));
+    $this->hasMany('NodeRevision as Revisions', array('local' => 'nid',
+                                                      'foreign' => 'nid'));
+
+    $this->hasMany('NodeCommentStatistic as CommentStatistics', array('local' => 'nid',
+                                                                      'foreign' => 'nid'));
 
     $this->hasMany('TermData as Terms', array('refClass' => 'TermNode',
                                               'local' => 'nid',
                                               'foreign' => 'nid'));
 
-    $this->hasMany('TermNode', array('local' => 'nid',
-                                     'foreign' => 'nid'));
+    $this->hasMany('TermNode as TermNodes', array('local' => 'nid',
+                                                  'foreign' => 'nid'));
   }
 
 }

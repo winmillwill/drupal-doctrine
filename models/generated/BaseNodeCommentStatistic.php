@@ -38,8 +38,8 @@ abstract class BaseNodeCommentStatistic extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasOne('User as LastCommentUser', array('local' => 'last_comment_uid',
-                                                   'foreign' => 'uid'));
+    $this->hasOne('User as LastCommentingUser', array('local' => 'last_comment_uid',
+                                                      'foreign' => 'uid'));
 
     $this->hasOne('Node', array('local' => 'nid',
                                 'foreign' => 'nid'));

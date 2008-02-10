@@ -19,3 +19,6 @@ History:
     Node:
       local: nid
       foreign: nid
+    User:
+      local: uid
+      foreign: uid

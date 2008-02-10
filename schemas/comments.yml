@@ -66,39 +66,3 @@ Comment:
       local: uid
       foreign: uid
       foreignAlias: Comments
-
-NodeCommentStatistic: 
-  tableName: node_comment_statistics
-  columns: 
-    nid:
-      unsigned: 1
-      primary: true
-      default: 0
-      notnull: true
-      type: integer(4)
-    last_comment_timestamp:
-      default: 0
-      notnull: true
-      type: integer(4)
-    last_comment_name:
-      notnull: false
-      type: string(60)
-    last_comment_uid:
-      default: 0
-      notnull: true
-      type: integer(4)
-    comment_count:
-      unsigned: 1
-      default: 0
-      notnull: true
-      type: integer(4)
-  relations:
-    LastCommentUser:
-      class: User
-      local: last_comment_uid
-      foreign: uid
-      foreignAlias: NodeCommentStatistics
-    Node:
-      local: nid
-      foreign: nid
-      foreignAlias: CommentStatistics

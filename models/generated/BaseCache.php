@@ -39,23 +39,23 @@ abstract class BaseCache extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasOne('CacheBlock as Blocks', array('local' => 'cid',
-                                                'foreign' => 'cid'));
+    $this->hasMany('CacheBlock as Blocks', array('local' => 'cid',
+                                                 'foreign' => 'cid'));
 
-    $this->hasOne('CacheFilter as Filters', array('local' => 'cid',
-                                                  'foreign' => 'cid'));
+    $this->hasMany('CacheFilter as Filters', array('local' => 'cid',
+                                                   'foreign' => 'cid'));
 
-    $this->hasOne('CacheForm as Forms', array('local' => 'cid',
-                                              'foreign' => 'cid'));
+    $this->hasMany('CacheForm as Forms', array('local' => 'cid',
+                                               'foreign' => 'cid'));
 
-    $this->hasOne('CacheMenu as Menus', array('local' => 'cid',
-                                              'foreign' => 'cid'));
+    $this->hasMany('CacheMenu as Menus', array('local' => 'cid',
+                                               'foreign' => 'cid'));
 
-    $this->hasOne('CachePage as Pages', array('local' => 'cid',
-                                              'foreign' => 'cid'));
+    $this->hasMany('CachePage as Pages', array('local' => 'cid',
+                                               'foreign' => 'cid'));
 
-    $this->hasOne('CacheUpdate as Updates', array('local' => 'cid',
-                                                  'foreign' => 'cid'));
+    $this->hasMany('CacheUpdate as Updates', array('local' => 'cid',
+                                                   'foreign' => 'cid'));
   }
 
 }

@@ -66,9 +66,14 @@ Node:
       class: NodeType
       local: type
       foreign: type
+      foreignAlias: Nodes
     User:
       local: uid
       foreign: uid
+      foreignAlias: Nodes
+    Vocabulary:
+      local: vid
+      foreign: vid
       foreignAlias: Nodes
 
 NodeAccess: 
@@ -138,7 +143,8 @@ NodeCounter:
       foreign: nid
       foreignAlias: Counters
 
-NodeRevisions: 
+NodeRevision:
+  tableName: node_revisions 
   columns: 
     nid:
       unsigned: 1
@@ -243,3 +249,39 @@ NodeType:
     orig_type:
       notnull: true
       type: string(255)
+
+NodeCommentStatistic: 
+  tableName: node_comment_statistics
+  columns: 
+    nid:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+    last_comment_timestamp:
+      default: 0
+      notnull: true
+      type: integer(4)
+    last_comment_name:
+      notnull: false
+      type: string(60)
+    last_comment_uid:
+      default: 0
+      notnull: true
+      type: integer(4)
+    comment_count:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+  relations:
+    LastCommentingUser:
+      class: User
+      local: last_comment_uid
+      foreign: uid
+      foreignAlias: NodeCommentStatistics
+    Node:
+      local: nid
+      foreign: nid
+      foreignAlias: CommentStatistics

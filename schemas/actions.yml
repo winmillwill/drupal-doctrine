@@ -20,11 +20,6 @@ Action:
       notnull: true
       type: string(255)
   relations:
-    Aids:
-      class: ActionAid
-      local: aid
-      foreign: aid
-      foreignAlias: Actions
 
 ActionAid: 
   tableName: actions_aid
@@ -35,3 +30,8 @@ ActionAid:
       notnull: true
       autoinc: true
       type: integer(4)
+  relations:
+    Action:
+      local: aid
+      foreign: aid
+      foreignAlias: Aids

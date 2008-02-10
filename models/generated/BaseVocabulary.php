@@ -69,14 +69,20 @@ abstract class BaseVocabulary extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasMany('NodeRevisions', array('local' => 'vid',
+    $this->hasMany('Node as Nodes', array('local' => 'vid',
                                           'foreign' => 'vid'));
+
+    $this->hasMany('NodeRevision as NodeRevisions', array('local' => 'vid',
+                                                          'foreign' => 'vid'));
 
     $this->hasOne('TermData', array('local' => 'vid',
                                     'foreign' => 'vid'));
 
-    $this->hasMany('TermNode', array('local' => 'tid',
-                                     'foreign' => 'tid'));
+    $this->hasMany('TermNode as TermNodes', array('local' => 'tid',
+                                                  'foreign' => 'tid'));
+
+    $this->hasMany('VocabularyNodeType as NodeTypes', array('local' => 'vid',
+                                                            'foreign' => 'vid'));
   }
 
 }

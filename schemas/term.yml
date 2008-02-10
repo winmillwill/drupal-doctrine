@@ -32,6 +32,7 @@ TermData:
       class: TermData
       refClass: TermHierarchy
       foreignAlias: Parent
+      foreignType: one
     Nodes:
       class: Node
       local: nid
@@ -89,12 +90,15 @@ TermNode:
       class: TermNode
       local: tid
       foreign: tid
+      foreignAlias: TermNodes
     Vocabulary:
       local: tid
       foreign: tid
+      foreignAlias: TermNodes
     Node:
       local: nid
       foreign: nid
+      foreignAlias: TermNodes
 
 TermRelation: 
   columns: 

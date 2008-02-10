@@ -39,8 +39,8 @@ abstract class BaseCacheBlock extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasMany('Cache', array('local' => 'cid',
-                                  'foreign' => 'cid'));
+    $this->hasOne('Cache', array('local' => 'cid',
+                                 'foreign' => 'cid'));
   }
 
 }

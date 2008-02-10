@@ -103,23 +103,26 @@ abstract class BaseUser extends Doctrine_Record
     $this->hasMany('Comment as Comments', array('local' => 'uid',
                                                 'foreign' => 'uid'));
 
-    $this->hasMany('NodeCommentStatistic as NodeCommentStatistics', array('local' => 'uid',
-                                                                          'foreign' => 'last_comment_uid'));
-
     $this->hasMany('File as Files', array('local' => 'uid',
                                           'foreign' => 'uid'));
+
+    $this->hasMany('History', array('local' => 'uid',
+                                    'foreign' => 'uid'));
 
     $this->hasMany('Node as Nodes', array('local' => 'uid',
                                           'foreign' => 'uid'));
 
-    $this->hasMany('NodeRevisions', array('local' => 'uid',
-                                          'foreign' => 'uid'));
+    $this->hasMany('NodeRevision as NodeRevisions', array('local' => 'uid',
+                                                          'foreign' => 'uid'));
+
+    $this->hasMany('NodeCommentStatistic as NodeCommentStatistics', array('local' => 'uid',
+                                                                          'foreign' => 'last_comment_uid'));
 
     $this->hasMany('Session as Sessions', array('local' => 'uid',
                                                 'foreign' => 'uid'));
 
-    $this->hasMany('UserRole', array('local' => 'uid',
-                                     'foreign' => 'uid'));
+    $this->hasMany('UserRole as UserRoles', array('local' => 'uid',
+                                                  'foreign' => 'uid'));
 
     $this->hasMany('Watchdog as Watchdogs', array('local' => 'uid',
                                                   'foreign' => 'uid'));

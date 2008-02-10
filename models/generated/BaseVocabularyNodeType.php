@@ -21,5 +21,10 @@ abstract class BaseVocabularyNodeType extends Doctrine_Record
 ));
   }
 
+  public function setUp()
+  {
+    $this->hasOne('Vocabulary', array('local' => 'vid',
+                                      'foreign' => 'vid'));
+  }
 
 }

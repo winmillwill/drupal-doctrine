@@ -30,6 +30,9 @@ abstract class BaseHistory extends Doctrine_Record
   {
     $this->hasOne('Node', array('local' => 'nid',
                                 'foreign' => 'nid'));
+
+    $this->hasOne('User', array('local' => 'uid',
+                                'foreign' => 'uid'));
   }
 
 }

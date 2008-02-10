@@ -34,8 +34,8 @@ abstract class BaseAction extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasOne('ActionAid as Aids', array('local' => 'aid',
-                                             'foreign' => 'aid'));
+    $this->hasMany('ActionAid as Aids', array('local' => 'aid',
+                                              'foreign' => 'aid'));
   }
 
 }
