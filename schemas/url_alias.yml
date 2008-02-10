@@ -1,0 +1,18 @@
+---
+UrlAlias: 
+  columns: 
+    pid:
+      unsigned: 1
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    src:
+      notnull: true
+      type: string(128)
+    dst:
+      notnull: true
+      type: string(128)
+    language:
+      notnull: true
+      type: string(12)

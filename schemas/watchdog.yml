@@ -1,0 +1,47 @@
+---
+Watchdog: 
+  columns: 
+    wid:
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    uid:
+      default: 0
+      notnull: true
+      type: integer(4)
+    type:
+      notnull: true
+      type: string(16)
+    message:
+      notnull: true
+      type: string(2147483647)
+    variables:
+      notnull: true
+      type: string(2147483647)
+    severity:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(1)
+    link:
+      notnull: true
+      type: string(255)
+    location:
+      notnull: true
+      type: string(2147483647)
+    referer:
+      notnull: true
+      type: string(128)
+    hostname:
+      notnull: true
+      type: string(128)
+    timestamp:
+      default: 0
+      notnull: true
+      type: integer(4)
+  relations:
+    User:
+      local: uid
+      foreign: uid
+      foreignAlias: Watchdogs

@@ -1,0 +1,18 @@
+---
+Access: 
+  columns: 
+    aid:
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    mask:
+      notnull: true
+      type: string(255)
+    type:
+      notnull: true
+      type: string(255)
+    status:
+      default: 0
+      notnull: true
+      type: integer(1)

@@ -1,0 +1,12 @@
+---
+Role: 
+  columns: 
+    rid:
+      unsigned: 1
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    name:
+      notnull: true
+      type: string(64)

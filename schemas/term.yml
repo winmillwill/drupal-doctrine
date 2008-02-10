@@ -1,0 +1,138 @@
+TermData: 
+  columns: 
+    tid:
+      unsigned: 1
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    vid:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    name:
+      notnull: true
+      type: string(255)
+    description:
+      notnull: false
+      type: string(2147483647)
+    weight:
+      default: 0
+      notnull: true
+      type: integer(1)
+  relations:
+    Vocabulary:
+      local: vid
+      foreign: vid
+      foreignType: one
+    Children:
+      local: tid
+      foreign: parent
+      class: TermData
+      refClass: TermHierarchy
+      foreignAlias: Parent
+    Nodes:
+      class: Node
+      local: nid
+      foreign: nid
+      refClass: TermNode
+      foreignAlias: Terms
+
+TermHierarchy: 
+  columns: 
+    tid:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+    parent:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+  relations:
+    Term:
+      class: TermData
+      local: tid
+      foreign: tid
+      foreignType: one
+    ParentTerm:
+      local: parent
+      foreign: tid
+      foreignType: one
+
+TermNode: 
+  columns: 
+    nid:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    vid:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+    tid:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+  relations:
+    Term:
+      local: tid
+      foreign: tid
+    Vocabulary:
+      local: tid
+      foreign: tid
+    Node:
+      local: nid
+      foreign: nid
+
+TermRelation: 
+  columns: 
+    trid:
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    tid1:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    tid2:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+  relations:
+    Term1:
+      class: Term
+      local: tid1
+      foreign: tid
+    Term2:
+      class: Term
+      locl: tid2
+      foreign: tid
+
+TermSynonym: 
+  columns: 
+    tsid:
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    tid:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    name:
+      notnull: true
+      type: string(255)

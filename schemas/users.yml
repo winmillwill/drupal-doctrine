@@ -1,0 +1,97 @@
+User:
+  tableName: users 
+  columns: 
+    uid:
+      unsigned: 1
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    name:
+      notnull: true
+      type: string(60)
+    pass:
+      notnull: true
+      type: string(32)
+    mail:
+      notnull: false
+      type: string(64)
+    mode:
+      default: 0
+      notnull: true
+      type: integer(1)
+    sort:
+      default: 0
+      notnull: false
+      type: integer(1)
+    threshold:
+      default: 0
+      notnull: false
+      type: integer(1)
+    theme:
+      notnull: true
+      type: string(255)
+    signature:
+      notnull: true
+      type: string(255)
+    created:
+      default: 0
+      notnull: true
+      type: integer(4)
+    access:
+      default: 0
+      notnull: true
+      type: integer(4)
+    login:
+      default: 0
+      notnull: true
+      type: integer(4)
+    status:
+      default: 0
+      notnull: true
+      type: integer(1)
+    timezone:
+      notnull: false
+      type: string(8)
+    language:
+      notnull: true
+      type: string(12)
+    picture:
+      notnull: true
+      type: string(255)
+    init:
+      notnull: false
+      type: string(64)
+    data:
+      notnull: false
+      type: string(2147483647)
+  relations:
+    Roles:
+      class: Role
+      refClass: UserRole
+      local: uid
+      foreign: rid
+      foreignAlias: Users
+
+UserRole:
+  tableName: users_roles 
+  columns: 
+    uid:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+    rid:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+  relations:
+    User:
+      local: uid
+      foreign: uid
+    Role:
+      local: rid
+      foreign: rid

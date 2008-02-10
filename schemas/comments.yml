@@ -1,0 +1,104 @@
+---
+Comment:
+  tableName: comments 
+  columns: 
+    cid:
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    pid:
+      default: 0
+      notnull: true
+      type: integer(4)
+    nid:
+      default: 0
+      notnull: true
+      type: integer(4)
+    uid:
+      default: 0
+      notnull: true
+      type: integer(4)
+    subject:
+      notnull: true
+      type: string(64)
+    comment:
+      notnull: true
+      type: blob(2147483647)
+    hostname:
+      notnull: true
+      type: string(128)
+    timestamp:
+      default: 0
+      notnull: true
+      type: integer(4)
+    status:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(1)
+    format:
+      default: 0
+      notnull: true
+      type: integer(2)
+    thread:
+      notnull: true
+      type: string(255)
+    name:
+      notnull: false
+      type: string(60)
+    mail:
+      notnull: false
+      type: string(64)
+    homepage:
+      notnull: false
+      type: string(255)
+  relations:
+    Permission:
+      local: pid
+      foreign: pid
+      foreignAlias: Comments
+    Node:
+      local: nid
+      foreign: nid
+      foreignAlias: Comments
+    User:
+      local: uid
+      foreign: uid
+      foreignAlias: Comments
+
+NodeCommentStatistic: 
+  tableName: node_comment_statistics
+  columns: 
+    nid:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+    last_comment_timestamp:
+      default: 0
+      notnull: true
+      type: integer(4)
+    last_comment_name:
+      notnull: false
+      type: string(60)
+    last_comment_uid:
+      default: 0
+      notnull: true
+      type: integer(4)
+    comment_count:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+  relations:
+    LastCommentUser:
+      class: User
+      local: last_comment_uid
+      foreign: uid
+      foreignAlias: NodeCommentStatistics
+    Node:
+      local: nid
+      foreign: nid
+      foreignAlias: CommentStatistics

@@ -1,0 +1,19 @@
+---
+Batch: 
+  columns: 
+    bid:
+      unsigned: 1
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    token:
+      notnull: true
+      type: string(64)
+    timestamp:
+      default: 0
+      notnull: true
+      type: integer(4)
+    batch:
+      notnull: false
+      type: string(2147483647)

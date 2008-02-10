@@ -1,0 +1,200 @@
+---
+Cache: 
+  columns: 
+    cid:
+      primary: true
+      notnull: true
+      type: string(255)
+    data:
+      notnull: false
+      type: blob(2147483647)
+    expire:
+      default: 0
+      notnull: true
+      type: integer(4)
+    created:
+      default: 0
+      notnull: true
+      type: integer(4)
+    headers:
+      notnull: false
+      type: string(2147483647)
+    serialized:
+      default: 0
+      notnull: true
+      type: integer(2)
+  relations:
+    Blocks:
+      class: CacheBlock
+      local: cid
+      foreign: cid
+    Filters:
+      class: CacheFilter
+      local: cid
+      foreign: cid
+    Forms:
+      class: CacheForm
+      local: cid
+      foreign: cid
+    Menus:
+      class: CacheMenu
+      local: cid
+      foreign: cid
+    Pages:
+      class: CachePage
+      local: cid
+      foreign: cid
+    Updates:
+      class: CacheUpdate
+      local: cid
+      foreign: cid
+
+CacheBlock: 
+  columns: 
+    cid:
+      primary: true
+      notnull: true
+      type: string(255)
+    data:
+      notnull: false
+      type: blob(2147483647)
+    expire:
+      default: 0
+      notnull: true
+      type: integer(4)
+    created:
+      default: 0
+      notnull: true
+      type: integer(4)
+    headers:
+      notnull: false
+      type: string(2147483647)
+    serialized:
+      default: 0
+      notnull: true
+      type: integer(2)
+
+CacheFilter: 
+  columns: 
+    cid:
+      primary: true
+      notnull: true
+      type: string(255)
+    data:
+      notnull: false
+      type: blob(2147483647)
+    expire:
+      default: 0
+      notnull: true
+      type: integer(4)
+    created:
+      default: 0
+      notnull: true
+      type: integer(4)
+    headers:
+      notnull: false
+      type: string(2147483647)
+    serialized:
+      default: 0
+      notnull: true
+      type: integer(2)
+
+CacheForm: 
+  columns: 
+    cid:
+      primary: true
+      notnull: true
+      type: string(255)
+    data:
+      notnull: false
+      type: blob(2147483647)
+    expire:
+      default: 0
+      notnull: true
+      type: integer(4)
+    created:
+      default: 0
+      notnull: true
+      type: integer(4)
+    headers:
+      notnull: false
+      type: string(2147483647)
+    serialized:
+      default: 0
+      notnull: true
+      type: integer(2)
+
+CacheMenu: 
+  columns: 
+    cid:
+      primary: true
+      notnull: true
+      type: string(255)
+    data:
+      notnull: false
+      type: blob(2147483647)
+    expire:
+      default: 0
+      notnull: true
+      type: integer(4)
+    created:
+      default: 0
+      notnull: true
+      type: integer(4)
+    headers:
+      notnull: false
+      type: string(2147483647)
+    serialized:
+      default: 0
+      notnull: true
+      type: integer(2)
+
+CachePage: 
+  columns: 
+    cid:
+      primary: true
+      notnull: true
+      type: string(255)
+    data:
+      notnull: false
+      type: blob(2147483647)
+    expire:
+      default: 0
+      notnull: true
+      type: integer(4)
+    created:
+      default: 0
+      notnull: true
+      type: integer(4)
+    headers:
+      notnull: false
+      type: string(2147483647)
+    serialized:
+      default: 0
+      notnull: true
+      type: integer(2)
+
+CacheUpdate: 
+  columns: 
+    cid:
+      primary: true
+      notnull: true
+      type: string(255)
+    data:
+      notnull: false
+      type: blob(2147483647)
+    expire:
+      default: 0
+      notnull: true
+      type: integer(4)
+    created:
+      default: 0
+      notnull: true
+      type: integer(4)
+    headers:
+      notnull: false
+      type: string(2147483647)
+    serialized:
+      default: 0
+      notnull: true
+      type: integer(2)

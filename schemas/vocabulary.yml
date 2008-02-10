@@ -1,0 +1,63 @@
+Vocabulary: 
+  columns: 
+    vid:
+      unsigned: 1
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    name:
+      notnull: true
+      type: string(255)
+    description:
+      notnull: false
+      type: string(2147483647)
+    help:
+      notnull: true
+      type: string(255)
+    relations:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(1)
+    hierarchy:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(1)
+    multiple:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(1)
+    required:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(1)
+    tags:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(1)
+    module:
+      notnull: true
+      type: string(255)
+    weight:
+      default: 0
+      notnull: true
+      type: integer(1)
+
+VocabularyNodeType:
+  tableName: vocabulary_node_types 
+  columns: 
+    vid:
+      unsigned: 1
+      primary: true
+      default: 0
+      notnull: true
+      type: integer(4)
+    type:
+      primary: true
+      notnull: true
+      type: string(32)

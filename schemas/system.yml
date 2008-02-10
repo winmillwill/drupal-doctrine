@@ -1,0 +1,39 @@
+---
+System: 
+  columns: 
+    filename:
+      primary: true
+      notnull: true
+      type: string(255)
+    name:
+      notnull: true
+      type: string(255)
+    type:
+      notnull: true
+      type: string(255)
+    owner:
+      notnull: true
+      type: string(255)
+    status:
+      default: 0
+      notnull: true
+      type: integer(4)
+    throttle:
+      default: 0
+      notnull: true
+      type: integer(1)
+    bootstrap:
+      default: 0
+      notnull: true
+      type: integer(4)
+    schema_version:
+      default: -1
+      notnull: true
+      type: integer(2)
+    weight:
+      default: 0
+      notnull: true
+      type: integer(4)
+    info:
+      notnull: false
+      type: string(2147483647)

@@ -1,0 +1,42 @@
+File:
+  tableName: files 
+  columns: 
+    fid:
+      unsigned: 1
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    uid:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    filename:
+      notnull: true
+      type: string(255)
+    filepath:
+      notnull: true
+      type: string(255)
+    filemime:
+      notnull: true
+      type: string(255)
+    filesize:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    status:
+      default: 0
+      notnull: true
+      type: integer(4)
+    timestamp:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+  relations:
+    User:
+      local: uid
+      foreign: uid
+      foreignAlias: Files

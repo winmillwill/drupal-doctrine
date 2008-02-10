@@ -1,0 +1,191 @@
+MenuCustom: 
+  columns: 
+    menu_name:
+      primary: true
+      notnull: true
+      type: string(32)
+    title:
+      notnull: true
+      type: string(255)
+    description:
+      notnull: false
+      type: string(2147483647)
+
+MenuLink:
+  tableName: menu_links 
+  columns: 
+    menu_name:
+      notnull: true
+      type: string(32)
+    mlid:
+      unsigned: 1
+      primary: true
+      notnull: true
+      autoinc: true
+      type: integer(4)
+    plid:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    link_path:
+      notnull: true
+      type: string(255)
+    router_path:
+      notnull: true
+      type: string(255)
+    link_title:
+      notnull: true
+      type: string(255)
+    options:
+      notnull: false
+      type: string(2147483647)
+    module:
+      default: system
+      notnull: true
+      type: string(255)
+    hidden:
+      default: 0
+      notnull: true
+      type: integer(2)
+    external:
+      default: 0
+      notnull: true
+      type: integer(2)
+    has_children:
+      default: 0
+      notnull: true
+      type: integer(2)
+    expanded:
+      default: 0
+      notnull: true
+      type: integer(2)
+    weight:
+      default: 0
+      notnull: true
+      type: integer(4)
+    depth:
+      default: 0
+      notnull: true
+      type: integer(2)
+    customized:
+      default: 0
+      notnull: true
+      type: integer(2)
+    p1:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    p2:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    p3:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    p4:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    p5:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    p6:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    p7:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    p8:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    p9:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    updated:
+      default: 0
+      notnull: true
+      type: integer(2)
+
+MenuRouter: 
+  columns: 
+    path:
+      primary: true
+      notnull: true
+      type: string(255)
+    load_functions:
+      notnull: true
+      type: string(255)
+    to_arg_functions:
+      notnull: true
+      type: string(255)
+    access_callback:
+      notnull: true
+      type: string(255)
+    access_arguments:
+      notnull: false
+      type: string(2147483647)
+    page_callback:
+      notnull: true
+      type: string(255)
+    page_arguments:
+      notnull: false
+      type: string(2147483647)
+    fit:
+      default: 0
+      notnull: true
+      type: integer(4)
+    number_parts:
+      default: 0
+      notnull: true
+      type: integer(2)
+    tab_parent:
+      notnull: true
+      type: string(255)
+    tab_root:
+      notnull: true
+      type: string(255)
+    title:
+      notnull: true
+      type: string(255)
+    title_callback:
+      notnull: true
+      type: string(255)
+    title_arguments:
+      notnull: true
+      type: string(255)
+    type:
+      default: 0
+      notnull: true
+      type: integer(4)
+    block_callback:
+      notnull: true
+      type: string(255)
+    description:
+      notnull: true
+      type: string(2147483647)
+    position:
+      notnull: true
+      type: string(255)
+    weight:
+      default: 0
+      notnull: true
+      type: integer(4)
+    file:
+      notnull: false
+      type: string(2147483647)

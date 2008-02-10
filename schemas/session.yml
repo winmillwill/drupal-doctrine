@@ -1,0 +1,31 @@
+Session:
+  tableName: sessions 
+  columns: 
+    uid:
+      unsigned: 1
+      default: 0
+      notnull: true
+      type: integer(4)
+    sid:
+      primary: true
+      notnull: true
+      type: string(64)
+    hostname:
+      notnull: true
+      type: string(128)
+    timestamp:
+      default: 0
+      notnull: true
+      type: integer(4)
+    cache:
+      default: 0
+      notnull: true
+      type: integer(4)
+    session:
+      notnull: false
+      type: string(2147483647)
+  relations:
+    User:
+      local: uid
+      foreign: uid
+      foreignAlias: Sessions
