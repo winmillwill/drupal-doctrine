@@ -54,6 +54,9 @@ abstract class BaseTermData extends Doctrine_Record
 
     $this->hasOne('TermHierarchy', array('local' => 'tid',
                                          'foreign' => 'tid'));
+
+    $this->hasMany('TermRelation', array('local' => 'tid',
+                                         'foreign' => 'tid1'));
   }
 
 }

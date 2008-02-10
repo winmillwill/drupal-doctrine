@@ -31,8 +31,8 @@ abstract class BaseTermNode extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasOne('Term', array('local' => 'tid',
-                                'foreign' => 'tid'));
+    $this->hasOne('TermNode as Term', array('local' => 'tid',
+                                            'foreign' => 'tid'));
 
     $this->hasOne('Vocabulary', array('local' => 'tid',
                                       'foreign' => 'tid'));

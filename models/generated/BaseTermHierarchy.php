@@ -28,8 +28,8 @@ abstract class BaseTermHierarchy extends Doctrine_Record
     $this->hasOne('TermData as Term', array('local' => 'tid',
                                             'foreign' => 'tid'));
 
-    $this->hasOne('ParentTerm', array('local' => 'parent',
-                                      'foreign' => 'tid'));
+    $this->hasOne('TermData as ParentTerm', array('local' => 'parent',
+                                                  'foreign' => 'tid'));
   }
 
 }

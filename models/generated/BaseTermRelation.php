@@ -29,11 +29,11 @@ abstract class BaseTermRelation extends Doctrine_Record
 
   public function setUp()
   {
-    $this->hasOne('Term as Term1', array('local' => 'tid1',
-                                         'foreign' => 'tid'));
+    $this->hasOne('TermData as Term1', array('local' => 'tid1',
+                                             'foreign' => 'tid'));
 
-    $this->hasOne('Term as Term2', array('local' => 'term_id',
-                                         'foreign' => 'tid'));
+    $this->hasOne('TermData as Term2', array('local' => 'term_data_id',
+                                             'foreign' => 'tid'));
   }
 
 }

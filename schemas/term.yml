@@ -60,6 +60,7 @@ TermHierarchy:
       foreign: tid
       foreignType: one
     ParentTerm:
+      class: TermData
       local: parent
       foreign: tid
       foreignType: one
@@ -85,6 +86,7 @@ TermNode:
       type: integer(4)
   relations:
     Term:
+      class: TermNode
       local: tid
       foreign: tid
     Vocabulary:
@@ -113,11 +115,11 @@ TermRelation:
       type: integer(4)
   relations:
     Term1:
-      class: Term
+      class: TermData
       local: tid1
       foreign: tid
     Term2:
-      class: Term
+      class: TermData
       locl: tid2
       foreign: tid
 
