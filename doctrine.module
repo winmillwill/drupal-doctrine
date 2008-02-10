@@ -1,0 +1,32 @@
+<?php
+function doctrine_init()
+{
+  global $db_url;
+
+  $doctrinePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'doctrine' . DIRECTORY_SEPARATOR . 'Doctrine.php';
+
+  if ( ! file_exists($doctrinePath))
+  {
+    drupal_set_message(t('Doctrine libs could not be found. You must svn export doctrine libs to drupal/modules/doctrine/lib/doctrine with the following command "svn co http://svn.phpdoctrine.org/branches/0.9/lib doctrine"'), 'error');
+
+    return;
+  }
+  
+  // Load Doctrine autoloader
+  require_once($doctrinePath);
+  spl_autoload_register(array('Doctrine', 'autoload'));
+
+  // Fix dsn for Doctrine
+  $dsn = str_replace('mysqli', 'mysql', $db_url);
+
+  // Create Doctrine connection
+  Doctrine_Manager::connection($dsn);
+
+  // Load models
+  Doctrine::loadModels(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'models');
+}
+
+function doctrine_boot()
+{
+  return doctrine_init();
+}

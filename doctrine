@@ -1,0 +1,34 @@
+#!/usr/bin/env php
+<?php
+// define default settings
+$cmd = 'index.php';
+$_SERVER['HTTP_HOST']       = 'default';
+$_SERVER['PHP_SELF']        = '/index.php';
+$_SERVER['REMOTE_ADDR']     = '127.0.0.1';
+$_SERVER['SERVER_SOFTWARE'] = 'PHP CLI';
+$_SERVER['REQUEST_METHOD']  = 'GET';
+$_SERVER['QUERY_STRING']    = '';
+$_SERVER['PHP_SELF']        = $_SERVER['REQUEST_URI'] = '/';
+
+chdir(realpath(dirname(__FILE__) . '/../..'));
+require_once 'includes/bootstrap.inc';
+drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+
+chdir(dirname(__FILE__));
+
+define('DATA_FIXTURES_PATH', 'fixtures');
+define('MODELS_PATH', 'models');
+define('MIGRATIONS_PATH', 'migrations');
+define('SQL_PATH', 'sql');
+define('YAML_SCHEMA_PATH', 'schemas');
+
+// Configure Doctrine Cli
+// Normally these are arguments to the cli tasks but if they are set here the arguments will be auto-filled
+$config = array('data_fixtures_path'  =>  DATA_FIXTURES_PATH,
+                'models_path'         =>  MODELS_PATH,
+                'migrations_path'     =>  MIGRATIONS_PATH,
+                'sql_path'            =>  SQL_PATH,
+                'yaml_schema_path'    =>  YAML_SCHEMA_PATH);
+
+$cli = new Doctrine_Cli($config);
+$cli->run($_SERVER['argv']);

@@ -1,0 +1,3 @@
+name = Doctrine
+description = Allows users to use the Doctrine ORM in Drupal
+package = Doctrine
