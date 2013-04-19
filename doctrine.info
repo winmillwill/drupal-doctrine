@@ -1,3 +1,8 @@
-name = Doctrine
-description = Allows users to use the Doctrine ORM in Drupal
+name = Doctrine Object Relational Mapper
+description = Integrates Doctrine's Object Relational Mapper Component.
+core = 7.x
 package = Doctrine
+php = 5.3.3
+
+dependencies[] = inject
+dependencies[] = classloader
