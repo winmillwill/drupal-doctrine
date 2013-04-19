@@ -21,20 +21,16 @@ use Doctrine\ORM\Tools\EntityGenerator;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 function doctrine_init() {
   $em = drupal_container()->get('doctrine.orm.manager');
-//   $user = $em->find('Doctrine\Drupal\Entity\User', 1);
-//   $user->firstName = 'Sylvain';
-//   $user->lastName = 'Lecoy';
-//   $user->managementLevel = 45;
-//   $em->persist($user);
-//   $em->flush();
+  $user = $em->find('Doctrine\Drupal\Entity\User', 1);
+  $em->persist($user);
+  $filter_format = $em->find('Doctrine\Drupal\Entity\FilterFormat', 'filtered_html');
+  $em->flush();
 
 //   $cmf = new DisconnectedClassMetadataFactory();
 //   $cmf->setEntityManager($em);
 //   $metadatas = $cmf->getAllMetadata();
 //   $folder = __DIR__ . DIRECTORY_SEPARATOR . 'lib';
 //   $em->getProxyFactory()->generateProxyClasses($metadatas, $folder);
-
-  $filter_format = $em->find('Doctrine\Drupal\Entity\FilterFormat', 'filtered_html');
   $debug = true;
 }
 
