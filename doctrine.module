@@ -1,30 +1,62 @@
 <?php
-function doctrine_init()
-{
-  global $db_url;
 
-  $doctrinePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'doctrine' . DIRECTORY_SEPARATOR . 'Doctrine.php';
+/**
+ * @file
+ * Integrates Doctrine's Object Relational Mapper Component.
+ */
 
-  if ( ! file_exists($doctrinePath))
-  {
-    drupal_set_message(t('Doctrine libs could not be found. You must svn export doctrine libs to drupal/modules/doctrine/lib/doctrine with the following command "svn co http://svn.phpdoctrine.org/branches/0.9/lib doctrine"'), 'error');
+/**
+ * Implements hook_boot().
+ */
+function doctrine_boot() {
+  doctrine_register();
+}
 
-    return;
-  }
+/**
+ * Implements hook_init().
+ */
+function doctrine_init() {
+  $manager = drupal_container()->get('doctrine.orm.manager');
+  $user = $manager->find('Doctrine\Drupal\Entity\User', 1);
+  $user->firstName = 'Sylvain';
+  $user->lastName = 'Lecoy';
+  $user->managementLevel = 45;
+  $manager->persist($user);
+  $manager->flush();
 
-  // Load Doctrine autoloader
-  require_once($doctrinePath);
-  spl_autoload_register(array('Doctrine', 'autoload'));
+  $debug = true;
+}
 
-  // Fix dsn for Doctrine
-  $dsn = str_replace('mysqli', 'mysql', $db_url);
+/**
+ * Implements hook_entity_info_alter().
+ */
+function doctrine_entity_info_alter(&$entity_info) {
+  // Sets the entity class for users to a class test value.
+  $entity_info['user']['entity class'] = 'Doctrine\Drupal\Entity\User';
+  // This throws exceptions.
+  $entity_info['filter_format']['entity class'] = 'Doctrine\Drupal\Entity\FilterFormat';
+  $entity_info['filter_format']['base table'] = 'filter_format';
+}
 
-  // Create Doctrine connection
-  Doctrine_Manager::connection($dsn);
+/**
+ * Implements hook_flush_caches().
+ */
+function doctrine_flush_caches() {
+  // In some context such as module activation, the boot method is not called so
+  // the component is never registered with the class loader. This cause
+  // troubles as we need the class definition when bootstrapping.
+  doctrine_register();
+  return array();
+}
 
-  // Load models
-  Doctrine::loadModels(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'models');
-
-  // Turn off portability options
-  Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_PORTABILITY, Doctrine::PORTABILITY_NONE);
+/**
+ * Registers Doctrine and dependencies name-space with the class loader.
+ */
+function doctrine_register() {
+  // Activates the class loader.
+  $loader = drupal_classloader();
+  $loader->registerNamespace('Doctrine\Common', __DIR__ . '/vendor/doctrine/common/lib');
+  $loader->registerNamespace('Doctrine\DBAL', __DIR__ . '/vendor/doctrine/dbal/lib');
+  $loader->registerNamespace('Doctrine\Drupal', __DIR__ . '/lib');
+  $loader->registerNamespace('Doctrine\ORM', __DIR__ . '/vendor/doctrine/orm/lib');
 }
