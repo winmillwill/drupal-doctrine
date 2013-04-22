@@ -8,6 +8,7 @@
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Doctrine\ORM\Tools\Setup;
 
 /**
  * Implements hook_inject_init().
@@ -17,8 +18,7 @@ function doctrine_inject_init(ContainerBuilder $container) {
   // Configures an instance of Doctrine DBAL Connection which is a wrapper
   // around the underlying driver connection (which is in this case a PDO instance).
   // This connection details identify the database to connect to as well as the
-  // credentials to use. The connection details can differ depending on the used
-  // driver.
+  // credentials to use. The connection details can differ depending on the used driver.
   $container->setDefinition('doctrine.dbal.connection', new Definition(
     'Doctrine\DBAL\Connection',
     array(doctrine_connection_params($databases['default']['default']))
@@ -27,8 +27,8 @@ function doctrine_inject_init(ContainerBuilder $container) {
   ->setFactoryMethod('getConnection');
 
   // Registers schema driver implementation.
-  $container->setDefinition('doctrine.orm.driver.drupal', new Definition('Doctrine\Drupal\Schema\SchemaDriver'));
-
+  $container->setDefinition('doctrine.orm.driver', new Definition('Doctrine\Drupal\Schema\SchemaDriver'));
+Setup::createConfiguration()
   // Registers doctrine configuration.
   $container->setDefinition('doctrine.orm.configuration', new Definition('Doctrine\ORM\Configuration'))
   ->setFactoryClass('Doctrine\ORM\Tools\Setup')
@@ -45,7 +45,7 @@ function doctrine_inject_init(ContainerBuilder $container) {
   // acquire the object-relational meta-data for entities. The meta-data driver
   // used here is the Drupal Schema API defined which is responsible to map
   // schema definitions, data type map, to Doctrine understandable language.
-  ->addMethodCall('setMetadataDriverImpl', array(new Reference('doctrine.orm.driver.drupal')));
+  ->addMethodCall('setMetadataDriverImpl', array(new Reference('doctrine.orm.driver')));
 
   // Registers doctrine entity manager.
   $container->setDefinition('doctrine.orm.manager', new Definition(

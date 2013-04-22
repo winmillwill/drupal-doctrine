@@ -1,4 +1,4 @@
-name = Doctrine Object Relational Mapper
+name = Doctrine ORM
 description = Integrates Doctrine's Object Relational Mapper Component.
 core = 7.x
 package = Doctrine

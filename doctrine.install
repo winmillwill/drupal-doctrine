@@ -5,75 +5,24 @@
  * Installation functions for Doctrine ORM module.
  */
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
-use Doctrine\ORM\Tools\EntityGenerator;
-
-define('DOCTRINE_OUTPUT_DIRECTORY', __DIR__ . DIRECTORY_SEPARATOR . 'lib');
-
-/**
- * Implements hook_install().
- */
-function doctrine_install() {
-  // Ensure translations don't break during installation.
-  $t = get_t();
-  $em = doctrine_entity_manager();
-
-  $cmf = new DisconnectedClassMetadataFactory();
-  $cmf->setEntityManager($em);
-  $metadatas = $cmf->getAllMetadata();
-
-  if (count($metadatas)) {
-    // Creates EntityGenerator.
-    $entityGenerator = new EntityGenerator();
-
-    $entityGenerator->setGenerateAnnotations(TRUE);
-    $entityGenerator->setGenerateStubMethods(TRUE);
-    $entityGenerator->setRegenerateEntityIfExists(TRUE);
-    $entityGenerator->setUpdateEntityIfExists(TRUE);
-    $entityGenerator->setNumSpaces(2);
-
-    // Generates Entities.
-    $entityGenerator->generate($metadatas, DOCTRINE_OUTPUT_DIRECTORY);
-
-    // Generates Proxies.
-    $em->getProxyFactory()->generateProxyClasses($metadatas, variable_get('file_temporary_path', file_directory_temp()));
-
-    drupal_set_message($t('Entity classes generated to "<info>!path</info>"', array('!path' => DOCTRINE_OUTPUT_DIRECTORY)));
-  }
-}
-
 /**
  * Implements hook_requirements().
  */
 function doctrine_requirements($phase) {
   $requirements = array();
-  // Ensure translations don't break during installation.
-  $t = get_t();
-
-  if ($phase == 'install' || $phase == 'update') {
-    if (!is_writable(DOCTRINE_OUTPUT_DIRECTORY)) {
-      $requirements['doctrine_writable'] = array(
-        'title' => $t('Doctrine'),
-        'value' => $t('Not writable'),
-        'description' => $t('The directory %directory is not writable.', array('%directory' => DOCTRINE_OUTPUT_DIRECTORY)),
-        'severity' => REQUIREMENT_ERROR
-      );
-    }
-  }
 
   $requirements['doctrine_common'] = array(
-    'title' => $t('Doctrine Common'),
+    'title' => 'Doctrine Common',
     'value' => Doctrine\Common\Version::VERSION,
     'severity' => REQUIREMENT_OK
   );
   $requirements['doctrine_dbal'] = array(
-    'title' => $t('Doctrine DBAL'),
+    'title' => 'Doctrine DBAL',
     'value' => Doctrine\DBAL\Version::VERSION,
     'severity' => REQUIREMENT_OK
   );
   $requirements['doctrine_orm'] = array(
-    'title' => $t('Doctrine ORM'),
+    'title' => 'Doctrine ORM',
     'value' => Doctrine\ORM\Version::VERSION,
     'severity' => REQUIREMENT_OK
   );

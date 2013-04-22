@@ -12,6 +12,38 @@ function doctrine_boot() {
 }
 
 /**
+ * Implements hook_init().
+ */
+
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
+use Doctrine\ORM\Tools\EntityGenerator;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+function doctrine_init() {
+//   $em = doctrine();
+//   $user = $em->find('Doctrine\Drupal\Entity\User', 1);
+//   $user->setName('Sylvain');
+//   $em->persist($user);
+//   $filter_format = $em->find('Doctrine\Drupal\Entity\FilterFormat', 'filtered_html');
+//   $em->flush();
+
+//   $cmf = new DisconnectedClassMetadataFactory();
+//   $cmf->setEntityManager($em);
+//   $metadatas = $cmf->getAllMetadata();
+//   $folder = __DIR__ . DIRECTORY_SEPARATOR . 'lib';
+//   $em->getProxyFactory()->generateProxyClasses($metadatas, $folder);
+  $debug = true;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function doctrine_entity_info_alter(&$entity_info) {
+  // Sets the entity class for users to a class test value.
+  $entity_info['user']['entity class'] = 'Doctrine\Drupal\Entity\User';
+}
+
+/**
  * Implements hook_flush_caches().
  */
 function doctrine_flush_caches() {
