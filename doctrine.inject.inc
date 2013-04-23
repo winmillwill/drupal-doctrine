@@ -8,7 +8,6 @@
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Doctrine\ORM\Tools\Setup;
 
 /**
  * Implements hook_inject_init().
@@ -27,8 +26,8 @@ function doctrine_inject_init(ContainerBuilder $container) {
   ->setFactoryMethod('getConnection');
 
   // Registers schema driver implementation.
-  $container->setDefinition('doctrine.orm.driver', new Definition('Doctrine\Drupal\Schema\SchemaDriver'));
-Setup::createConfiguration()
+  $container->setDefinition('doctrine.orm.driver', new Definition('Drupal\doctrine\Schema\SchemaDriver'));
+
   // Registers doctrine configuration.
   $container->setDefinition('doctrine.orm.configuration', new Definition('Doctrine\ORM\Configuration'))
   ->setFactoryClass('Doctrine\ORM\Tools\Setup')
@@ -39,8 +38,6 @@ Setup::createConfiguration()
   // without that object being aware of it. In Doctrine 2, proxy object are used
   // to realize several features but mainly for transparent lazy-loading.
   ->addMethodCall('setProxyDir', array(variable_get('file_temporary_path', file_directory_temp())))
-  // Sets the name space to use for generated proxy classes.
-  ->addMethodCall('setProxyNamespace', array('GeneratedClasses'))
   // Sets the meta-data driver implementation that is used by Doctrine to
   // acquire the object-relational meta-data for entities. The meta-data driver
   // used here is the Drupal Schema API defined which is responsible to map

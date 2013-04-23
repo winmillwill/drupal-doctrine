@@ -4,5 +4,5 @@ core = 7.x
 package = Doctrine
 php = 5.3.3
 
-dependencies[] = inject
+dependencies[] = inject (>7.x-2.0-beta5)
 dependencies[] = classloader

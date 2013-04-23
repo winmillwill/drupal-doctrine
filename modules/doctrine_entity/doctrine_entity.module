@@ -1,77 +1,28 @@
 <?php
+
 /**
  * @file
- * Integrates Doctrine's Object Relational Mapper Component.
+ * Integrates Drupal Entities with Doctrine ORM.
  */
 
-/**
- * Implements hook_boot().
- */
-function doctrine_boot() {
-  doctrine_register();
-}
-
-/**
- * Implements hook_init().
- */
-
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
-use Doctrine\ORM\Tools\EntityGenerator;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-function doctrine_init() {
-//   $em = doctrine();
-//   $user = $em->find('Doctrine\Drupal\Entity\User', 1);
-//   $user->setName('Sylvain');
-//   $em->persist($user);
-//   $filter_format = $em->find('Doctrine\Drupal\Entity\FilterFormat', 'filtered_html');
-//   $em->flush();
-
-//   $cmf = new DisconnectedClassMetadataFactory();
-//   $cmf->setEntityManager($em);
-//   $metadatas = $cmf->getAllMetadata();
-//   $folder = __DIR__ . DIRECTORY_SEPARATOR . 'lib';
-//   $em->getProxyFactory()->generateProxyClasses($metadatas, $folder);
+function doctrine_entity_init() {
+//   module_load_install('doctrine_entity');
+//   doctrine_entity_install();
+  $user = doctrine()->find('Drupal\doctrine\Entity\User', 1);
   $debug = true;
 }
 
 /**
  * Implements hook_entity_info_alter().
  */
-function doctrine_entity_info_alter(&$entity_info) {
+function doctrine_entity_entity_info_alter(&$entity_info) {
   // Sets the entity class for users to a class test value.
-  $entity_info['user']['entity class'] = 'Doctrine\Drupal\Entity\User';
-}
+  $entity_info['user']['entity class'] = 'Drupal\doctrine\Entity\User';
 
-/**
- * Implements hook_flush_caches().
- */
-function doctrine_flush_caches() {
-  // In some context such as module activation, the boot method is not called so
-  // the component is never registered with the class loader. This cause
-  // troubles as we need the class definition when bootstrapping.
-  doctrine_register();
-  return array();
-}
-
-/**
- * Registers Doctrine and dependencies name-space with the class loader.
- */
-function doctrine_register() {
-  // Activates the class loader.
-  $loader = drupal_classloader();
-  $loader->registerNamespace('Doctrine\Common', __DIR__ . '/vendor/doctrine/common/lib');
-  $loader->registerNamespace('Doctrine\DBAL', __DIR__ . '/vendor/doctrine/dbal/lib');
-  $loader->registerNamespace('Doctrine\Drupal', __DIR__ . '/lib');
-  $loader->registerNamespace('Doctrine\ORM', __DIR__ . '/vendor/doctrine/orm/lib');
-}
-
-/**
- * Gets the doctrine Entity Manager configured for Drupal.
- *
- * @return EntityManager
- */
-function doctrine() {
-  // Hard dependency on Dependency Injection component.
-  return drupal_container()->get('doctrine.orm.manager');
+  $entity_info['filter_format']['label'] = 'Filter Format';
+  $entity_info['filter_format']['fieldable'] = FALSE;
+  $entity_info['filter_format']['base table'] = 'filter_format';
+  $entity_info['filter_format']['entity class'] = 'Drupal\doctrine\Entity\FilterFormat';
+  $entity_info['filter_format']['controller class'] = '';
+  $entity_info['filter_format']['bundles'] = '';
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\Drupal\Entity;
+namespace Drupal\doctrine\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,35 +19,35 @@ class FilterFormat
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="NONE")
    */
-  private $format;
+  protected $format;
 
   /**
    * @var string
    *
    * @ORM\Column(name="name", type="string", length=255, nullable=false)
    */
-  private $name;
+  protected $name;
 
   /**
    * @var boolean
    *
    * @ORM\Column(name="cache", type="boolean", nullable=false)
    */
-  private $cache;
+  protected $cache;
 
   /**
    * @var boolean
    *
    * @ORM\Column(name="status", type="boolean", nullable=false)
    */
-  private $status;
+  protected $status;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="weight", type="integer", nullable=false)
    */
-  private $weight;
+  protected $weight;
 
 
   /**

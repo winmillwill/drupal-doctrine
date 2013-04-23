@@ -5,7 +5,7 @@
  * The SchemaDriver reads the mapping meta-data from Schema API.
  */
 
-namespace Doctrine\Drupal\Schema;
+namespace Drupal\doctrine\Schema;
 
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
@@ -32,7 +32,7 @@ class SchemaDriver implements MappingDriver {
       if (isset($entity_info['entity class'])) {
         // Only map entities which declares an 'entity class' in their info
         // hook. Entity API requires the 'base table' meta data so the driver
-        // can safely assumes it is existing and consists functional value.
+        // can safely assumes it is existing and contains functional value.
         static::$entityToTableMap[$entity_info['entity class']] = $entity_info['base table'];
       }
     }
@@ -69,20 +69,43 @@ class SchemaDriver implements MappingDriver {
       // A foreign key in schema can represent either a OneToOne relationship
       // or a ManyToOne relationship (unidirectional). The relation is treated
       // like a toOne association without the Many part.
-      foreach ($schema['foreign keys'] as $name => $relation) {
+      foreach ($schema['foreign keys'] as $name => $reference) {
         // What is expressed is: "This entity has a property that is a reference
         // to an instance of another entity". In other words, using a ManyToOne
-        // is the way to map OneToOne foreign key associations (which are actually
-        // maybe more frequent than shared primary key OneToOne associations).
-        $mapping = $this->fieldToArray($name, $schema['fields'][$name]);
-        $mapping['targetEntity'] = $this->getTargetEntity($relation['table']);
-        $mapping['joinColumns'][] = $this->joinColumnToArray($relation['columns']);
+        // is the way to map OneToOne foreign key associations.
+        list($self, $target) = $this->extractForeignKeys($reference);
+        $mapping = $this->fieldToArray($self, $schema['fields'][$self]);
+        $mapping['targetEntity'] = $this->getTargetEntity($reference['table']);
+        $mapping['joinColumns'][] = $this->joinColumnToArray($reference['columns']);
         $mapping['fetch'] = \Doctrine\ORM\Mapping\ClassMetadata::FETCH_LAZY;
-        $metadata->mapManyToOne($mapping);
+
+        if (isset($schema['unique keys'])) {
+          foreach ($schema['unique keys'] as $name => $columns) {
+            if (in_array($self, $columns)) {
+              // If the schema contains a unique key on the reference being
+              // mapped, the relation is a OneToOne association.
+              $metadata->mapOneToOne($mapping);
+              break;
+            }
+          }
+        }
+        else {
+          // If the schema does not contains a unique key on the reference being
+          // mapped, the relation is then a ManyToOne association.
+          $metadata->mapManyToOne($mapping);
+        }
 
         // Properties must be declared only once.
+        // TODO: Refactor to loop over fields.
         unset($schema['fields'][$name]);
       }
+    }
+
+    foreach ($this->getSchemaReferences($className) as $name => $references) {
+      // A foreign key in an external schema can represent either a OneToMany
+      // relationship or a ManyToMany relationship (unidirectional).
+      $debug = TRUE;
+//       list($self, $target) = $this->extractForeignKeys($reference);
     }
 
     $metadata->setPrimaryTable($primaryTable);
@@ -98,6 +121,22 @@ class SchemaDriver implements MappingDriver {
       $metadata->mapField($mapping);
     }
 
+  }
+
+  private function extractForeignKeys($reference) {
+    if (count($reference['columns']) > 1) {
+      // Mapping of several columns for a foreign key is not supported and
+      // the execution should result into a RuntimeException. However Drupal
+      // seems not using compound foreign keys and Doctrine does not
+      // recommends the use of surrogate key due to additional PHP code that
+      // is necessary to handle this kind of keys.
+
+      // TODO: Add support for surrogate foreign keys.
+      throw \UnexpectedValueException(sprintf('Unsupported surrogate foreign key to the schema: %s.', $reference['table']));
+    }
+    else {
+      return array(key($reference['columns']), current($reference['columns']));
+    }
   }
 
   /**
@@ -155,14 +194,64 @@ class SchemaDriver implements MappingDriver {
    *
    * @return array
    */
-  protected function getSchema($className) {
-    if (empty(static::$entityToTableMap[$className])) {
+  protected function getSchema($class) {
+    if (empty(static::$entityToTableMap[$class])) {
       // If entity class has not been found in entity map, throws an unexpected
       // value exception indicating the value does not match with the entity list.
-      throw new \UnexpectedValueException(sprintf('Unknown entity type: %s.', $className));
+      throw new \UnexpectedValueException(sprintf('Unknown entity type: %s.', $class));
     }
 
-    return drupal_get_schema(static::$entityToTableMap[$className]);
+    return drupal_get_schema(static::$entityToTableMap[$class]);
+  }
+
+  /**
+   * Gets the schema referencing the entity.
+   *
+   * This function helps finding the toMany relationships, where an external
+   * schema is referencing the entity.
+   *
+   * @param string $class
+   *   The name of the entity class.
+   *
+   * @throws \UnexpectedValueException
+   *
+   * @return array
+   *   An array of 'foreign keys' definition keyed by schema name.
+   */
+  protected function getSchemaReferences($class) {
+    $references = array();
+
+    if (empty(static::$entityToTableMap[$class])) {
+      // If entity class has not been found in entity map, throws an unexpected
+      // value exception indicating the value does not match with the entity list.
+      throw new \UnexpectedValueException(sprintf('Unknown entity type: %s.', $class));
+    }
+
+    // The schema references building process depends on Schema API through
+    // this function, as the driver relies on hook_schema(). Using this
+    // feature adds a substantial performance hit to schema driver as more
+    // meta-data has to be loaded into memory than might actually be necessary.
+    // This may not be relevant to scenarios where caching of meta-data is in
+    // place, however hits hardly in scenarios where no caching is used.
+    foreach (drupal_get_schema() as $name => $schema) {
+      if (isset($schema['foreign keys'])) {
+        // Loops over the foreign keys definition to find an eventual relation
+        // with the corresponding schema of the entity. Because the name of the
+        // constraint does not follow any conventions, the driver cannot rely
+        // on the key, but is enforced to compare every keys with the schema.
+        foreach (array_values($schema['foreign keys']) as $reference) {
+          // Compares the current value with the entity schema.
+          if ($reference['table'] == static::$entityToTableMap[$class]) {
+            // When a schema containing a reference to the entity being
+            // checked, add its references with the name of the schema as key
+            // and foreign keys definition as value.
+            $references[$name] = $schema['foreign keys'];
+          }
+        }
+      }
+    }
+
+    return $references;
   }
 
   /**
@@ -171,27 +260,27 @@ class SchemaDriver implements MappingDriver {
    * This function mirrors getSchema() as it returns the entity class based on
    * a table name.
    *
-   * @param string $tableName
+   * @param string $table
    *   The name of the table.
    *
    * @throws \UnexpectedValueException
    *
    * @return string
    */
-  protected function getTargetEntity($tableName) {
+  protected function getTargetEntity($table) {
     static $map = array();
 
     if (empty($map)) {
       $map = array_flip(static::$entityToTableMap);
     }
 
-    if (empty($map[$tableName])) {
+    if (empty($map[$table])) {
       // If table name has not been found in reversed entity map, throws an
       // unexpected value exception mirroring the exception in getSchema().
-      throw new \UnexpectedValueException(sprintf('Unknown table name: %s.', $tableName));
+      throw new \UnexpectedValueException(sprintf('Unknown table name: %s.', $table));
     }
 
-    return $map[$tableName];
+    return $map[$table];
   }
 
   /**
@@ -249,8 +338,8 @@ class SchemaDriver implements MappingDriver {
     static $classes = array();
 
     if (empty($classes)) {
-      foreach (static::$entityToTableMap as $className) {
-        if (class_exists($className) && !$this->isTransient($className)) {
+      foreach (array_keys(static::$entityToTableMap) as $className) {
+        if (/* TODO put this back: class_exists($className) && */!$this->isTransient($className)) {
           $classes[] = $className;
         }
       }

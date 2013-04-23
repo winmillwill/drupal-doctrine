@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\Drupal\Entity;
+namespace Drupal\doctrine\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,143 +19,143 @@ class User
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="NONE")
    */
-  private $uid;
+  protected $uid;
 
   /**
    * @var string
    *
    * @ORM\Column(name="name", type="string", length=60, nullable=false)
    */
-  private $name;
+  protected $name;
 
   /**
    * @var string
    *
    * @ORM\Column(name="pass", type="string", length=128, nullable=false)
    */
-  private $pass;
+  protected $pass;
 
   /**
    * @var string
    *
    * @ORM\Column(name="mail", type="string", length=254, nullable=true)
    */
-  private $mail;
+  protected $mail;
 
   /**
    * @var string
    *
    * @ORM\Column(name="theme", type="string", length=255, nullable=false)
    */
-  private $theme;
+  protected $theme;
 
   /**
    * @var string
    *
    * @ORM\Column(name="signature", type="string", length=255, nullable=false)
    */
-  private $signature;
+  protected $signature;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="created", type="integer", nullable=false)
    */
-  private $created;
+  protected $created;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="access", type="integer", nullable=false)
    */
-  private $access;
+  protected $access;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="login", type="integer", nullable=false)
    */
-  private $login;
+  protected $login;
 
   /**
    * @var boolean
    *
    * @ORM\Column(name="status", type="boolean", nullable=false)
    */
-  private $status;
+  protected $status;
 
   /**
    * @var string
    *
    * @ORM\Column(name="timezone", type="string", length=32, nullable=true)
    */
-  private $timezone;
+  protected $timezone;
 
   /**
    * @var string
    *
    * @ORM\Column(name="language", type="string", length=12, nullable=false)
    */
-  private $language;
+  protected $language;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="picture", type="integer", nullable=false)
    */
-  private $picture;
+  protected $picture;
 
   /**
    * @var string
    *
    * @ORM\Column(name="init", type="string", length=254, nullable=true)
    */
-  private $init;
+  protected $init;
 
   /**
    * @var string
    *
    * @ORM\Column(name="data", type="blob", nullable=true)
    */
-  private $data;
+  protected $data;
 
   /**
    * @var string
    *
    * @ORM\Column(name="firstName", type="string", length=255, nullable=false)
    */
-  private $firstName;
+  protected $firstName;
 
   /**
    * @var string
    *
    * @ORM\Column(name="lastName", type="string", length=255, nullable=false)
    */
-  private $lastName;
+  protected $lastName;
 
   /**
    * @var integer
    *
    * @ORM\Column(name="managementLevel", type="integer", nullable=true)
    */
-  private $managementLevel;
+  protected $managementLevel;
 
   /**
    * @var string
    *
    * @ORM\Column(name="uuid", type="string", length=36, nullable=false)
    */
-  private $uuid;
+  protected $uuid;
 
   /**
-   * @var \Doctrine\Drupal\Entity\FilterFormat
+   * @var \Drupal\doctrine\Entity\FilterFormat
    *
-   * @ORM\ManyToOne(targetEntity="Doctrine\Drupal\Entity\FilterFormat")
+   * @ORM\ManyToOne(targetEntity="Drupal\doctrine\Entity\FilterFormat")
    * @ORM\JoinColumns({
    *   @ORM\JoinColumn(name="signature_format", referencedColumnName="format")
    * })
    */
-  private $signature_format;
+  protected $signature_format;
 
 
   /**
@@ -598,10 +598,10 @@ class User
   /**
    * Set signature_format
    *
-   * @param \Doctrine\Drupal\Entity\FilterFormat $signatureFormat
+   * @param \Drupal\doctrine\Entity\FilterFormat $signatureFormat
    * @return User
    */
-  public function setSignatureFormat(\Doctrine\Drupal\Entity\FilterFormat $signatureFormat = null)
+  public function setSignatureFormat(\Drupal\doctrine\Entity\FilterFormat $signatureFormat = null)
   {
     $this->signature_format = $signatureFormat;
   
@@ -611,7 +611,7 @@ class User
   /**
    * Get signature_format
    *
-   * @return \Doctrine\Drupal\Entity\FilterFormat 
+   * @return \Drupal\doctrine\Entity\FilterFormat 
    */
   public function getSignatureFormat()
   {

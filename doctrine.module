@@ -30,14 +30,13 @@ function doctrine_register() {
   $loader = drupal_classloader();
   $loader->registerNamespace('Doctrine\Common', __DIR__ . '/vendor/doctrine/common/lib');
   $loader->registerNamespace('Doctrine\DBAL', __DIR__ . '/vendor/doctrine/dbal/lib');
-  $loader->registerNamespace('Doctrine\Drupal', __DIR__ . '/lib');
   $loader->registerNamespace('Doctrine\ORM', __DIR__ . '/vendor/doctrine/orm/lib');
 }
 
 /**
  * Gets the doctrine Entity Manager configured for Drupal.
  *
- * @return EntityManager
+ * @return Doctrine\ORM\EntityManager
  */
 function doctrine() {
   // Hard dependency on Dependency Injection component.

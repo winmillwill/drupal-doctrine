@@ -5,6 +5,9 @@
  * Installation functions for Doctrine ORM module.
  */
 
+require_once 'doctrine.module';
+doctrine_register();
+
 /**
  * Implements hook_requirements().
  */
@@ -26,6 +29,26 @@ function doctrine_requirements($phase) {
     'value' => Doctrine\ORM\Version::VERSION,
     'severity' => REQUIREMENT_OK
   );
+
+  try {
+    // Ensures Doctrine is configured for production environment.
+    doctrine()->getConfiguration()->ensureProductionSettings();
+
+    $requirements['doctrine'] = array(
+      'title' => 'Doctrine',
+      'value' => 'Production',
+      'description' => 'Configuration instance contains settings that are suitable for a production environment.',
+      'severity' => REQUIREMENT_OK
+    );
+  }
+  catch (Exception $e) {
+    $requirements['doctrine'] = array(
+      'title' => 'Doctrine',
+      'value' => 'Development',
+      'description' => $e->getMessage(),
+      'severity' => REQUIREMENT_WARNING
+    );
+  }
 
   return $requirements;
 }
