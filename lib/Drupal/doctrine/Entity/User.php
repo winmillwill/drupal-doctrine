@@ -24,13 +24,6 @@ class User
   /**
    * @var string
    *
-   * @ORM\Column(name="name", type="string", length=60, nullable=false)
-   */
-  protected $name;
-
-  /**
-   * @var string
-   *
    * @ORM\Column(name="pass", type="string", length=128, nullable=false)
    */
   protected $pass;
@@ -55,6 +48,13 @@ class User
    * @ORM\Column(name="signature", type="string", length=255, nullable=false)
    */
   protected $signature;
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="signature_format", type="string", length=255, nullable=true)
+   */
+  protected $signature_format;
 
   /**
    * @var integer
@@ -119,44 +119,6 @@ class User
    */
   protected $data;
 
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="firstName", type="string", length=255, nullable=false)
-   */
-  protected $firstName;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="lastName", type="string", length=255, nullable=false)
-   */
-  protected $lastName;
-
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="managementLevel", type="integer", nullable=true)
-   */
-  protected $managementLevel;
-
-  /**
-   * @var string
-   *
-   * @ORM\Column(name="uuid", type="string", length=36, nullable=false)
-   */
-  protected $uuid;
-
-  /**
-   * @var \Drupal\doctrine\Entity\FilterFormat
-   *
-   * @ORM\ManyToOne(targetEntity="Drupal\doctrine\Entity\FilterFormat")
-   * @ORM\JoinColumns({
-   *   @ORM\JoinColumn(name="signature_format", referencedColumnName="format")
-   * })
-   */
-  protected $signature_format;
-
 
   /**
    * Set uid
@@ -179,29 +141,6 @@ class User
   public function getUid()
   {
     return $this->uid;
-  }
-
-  /**
-   * Set name
-   *
-   * @param string $name
-   * @return User
-   */
-  public function setName($name)
-  {
-    $this->name = $name;
-  
-    return $this;
-  }
-
-  /**
-   * Get name
-   *
-   * @return string 
-   */
-  public function getName()
-  {
-    return $this->name;
   }
 
   /**
@@ -294,6 +233,29 @@ class User
   public function getSignature()
   {
     return $this->signature;
+  }
+
+  /**
+   * Set signature_format
+   *
+   * @param string $signatureFormat
+   * @return User
+   */
+  public function setSignatureFormat($signatureFormat)
+  {
+    $this->signature_format = $signatureFormat;
+  
+    return $this;
+  }
+
+  /**
+   * Get signature_format
+   *
+   * @return string 
+   */
+  public function getSignatureFormat()
+  {
+    return $this->signature_format;
   }
 
   /**
@@ -501,120 +463,5 @@ class User
   public function getData()
   {
     return $this->data;
-  }
-
-  /**
-   * Set firstName
-   *
-   * @param string $firstName
-   * @return User
-   */
-  public function setFirstName($firstName)
-  {
-    $this->firstName = $firstName;
-  
-    return $this;
-  }
-
-  /**
-   * Get firstName
-   *
-   * @return string 
-   */
-  public function getFirstName()
-  {
-    return $this->firstName;
-  }
-
-  /**
-   * Set lastName
-   *
-   * @param string $lastName
-   * @return User
-   */
-  public function setLastName($lastName)
-  {
-    $this->lastName = $lastName;
-  
-    return $this;
-  }
-
-  /**
-   * Get lastName
-   *
-   * @return string 
-   */
-  public function getLastName()
-  {
-    return $this->lastName;
-  }
-
-  /**
-   * Set managementLevel
-   *
-   * @param integer $managementLevel
-   * @return User
-   */
-  public function setManagementLevel($managementLevel)
-  {
-    $this->managementLevel = $managementLevel;
-  
-    return $this;
-  }
-
-  /**
-   * Get managementLevel
-   *
-   * @return integer 
-   */
-  public function getManagementLevel()
-  {
-    return $this->managementLevel;
-  }
-
-  /**
-   * Set uuid
-   *
-   * @param string $uuid
-   * @return User
-   */
-  public function setUuid($uuid)
-  {
-    $this->uuid = $uuid;
-  
-    return $this;
-  }
-
-  /**
-   * Get uuid
-   *
-   * @return string 
-   */
-  public function getUuid()
-  {
-    return $this->uuid;
-  }
-
-  /**
-   * Set signature_format
-   *
-   * @param \Drupal\doctrine\Entity\FilterFormat $signatureFormat
-   * @return User
-   */
-  public function setSignatureFormat(\Drupal\doctrine\Entity\FilterFormat $signatureFormat = null)
-  {
-    $this->signature_format = $signatureFormat;
-  
-    return $this;
-  }
-
-  /**
-   * Get signature_format
-   *
-   * @return \Drupal\doctrine\Entity\FilterFormat 
-   */
-  public function getSignatureFormat()
-  {
-    return $this->signature_format;
   }
 }
