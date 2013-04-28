@@ -5,7 +5,7 @@
  * The SchemaDriver reads the mapping meta-data from Schema API.
  */
 
-namespace Drupal\doctrine\Schema;
+namespace Drupal\doctrine\Mapping;
 
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
@@ -14,28 +14,77 @@ use Doctrine\DBAL\Types\Type;
 /**
  * Reads the mapping meta-data from Schema API.
  *
+ * The meta-data building process depends on Entity API through this class, as
+ * the driver relies on entity info. Using this feature adds a substantial
+ * performance hit to schema driver as more meta-data has to be loaded into
+ * memory than might actually be necessary. This may not be relevant to scenarios
+ * where caching of meta-data is in place, however hits hardly in scenarios where
+ * no caching is used.
+ *
  * @since 7.x-1.0
  * @author Sylvain Lecoy <sylvain.lecoy@gmail.com>
  */
 class SchemaDriver implements MappingDriver {
 
-  protected static $entityToTableMap = array();
+  /**
+   * Array information about the whole database schema.
+   *
+   * @var array
+   *
+   * @see drupal_get_schema()
+   */
+  protected $schemas;
 
-  public function __construct() {
-    // The map building process depends on Entity API through this function,
-    // as the driver relies on hook_entity_info(). Using this feature adds a
-    // substantial performance hit to schema driver as more meta-data has to be
-    // loaded into memory than might actually be necessary. This may not be
-    // relevant to scenarios where caching of meta-data is in place, however
-    // hits in scenarios where no caching is used.
-    foreach (entity_get_info() as $name => $entity_info) {
-      if (isset($entity_info['entity class'])) {
+  /**
+   * Array of information about the entities.
+   *
+   * @var array
+   *
+   * @see entity_get_info()
+   */
+  protected $entityInfo;
+
+  protected $entityToSchemaMap = array();
+
+  /**
+   * Constructs a SchemaDriver.
+   *
+   * @param array $schemas
+   * @param array $entityInfo
+   */
+  public function __construct(array $schemas, array $entityInfo) {
+    // The entity to schema map building process depends on Entity API through
+    // this function, as the driver relies on hook_entity_info() meta-data.
+    foreach (array_values($entityInfo) as $entity) {
+      if (isset($entity['entity class'])) {
         // Only map entities which declares an 'entity class' in their info
         // hook. Entity API requires the 'base table' meta data so the driver
         // can safely assumes it is existing and contains functional value.
-        static::$entityToTableMap[$entity_info['entity class']] = $entity_info['base table'];
+        $this->entityToSchemaMap[$entity['entity class']] = $entity['base table'];
       }
     }
+
+    // The schema references building process depends on Schema API through
+    // this function, as the driver relies on hook_schema() meta-data.
+    foreach ($schemas as $name => $schema) {
+      if (isset($schema['foreign keys'])) {
+        // Loops over the foreign keys definition to find an eventual relation
+        // with the corresponding schema of the entity. Because the name of the
+        // constraint does not follow any conventions, the driver cannot rely
+        // on the key, but is enforced to compare every keys with the schema.
+        foreach (array_values($schema['foreign keys']) as $reference) {
+          // Compares the current value with the entity schema.
+          if ($reference['table'] == $this->$entityToTableMap[$class]) {
+            // When a schema containing a reference to the entity being
+            // checked, add its references with the name of the schema as key
+            // and foreign keys definition as value.
+            $references[$name] = $schema['foreign keys'];
+          }
+        }
+      }
+    }
+    $this->schemas = $schemas;
+    $this->entityInfo = $entityInfo;
   }
 
   /**
@@ -195,13 +244,13 @@ class SchemaDriver implements MappingDriver {
    * @return array
    */
   protected function getSchema($class) {
-    if (empty(static::$entityToTableMap[$class])) {
+    if (empty($this->entityToSchemaMap[$class])) {
       // If entity class has not been found in entity map, throws an unexpected
       // value exception indicating the value does not match with the entity list.
       throw new \UnexpectedValueException(sprintf('Unknown entity type: %s.', $class));
     }
 
-    return drupal_get_schema(static::$entityToTableMap[$class]);
+    return $this->schemas[$this->entityToSchemaMap[$class]];
   }
 
   /**

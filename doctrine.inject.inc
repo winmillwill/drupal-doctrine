@@ -26,7 +26,7 @@ function doctrine_inject_init(ContainerBuilder $container) {
   ->setFactoryMethod('getConnection');
 
   // Registers schema driver implementation.
-  $container->setDefinition('doctrine.orm.driver', new Definition('Drupal\doctrine\Schema\SchemaDriver'));
+  $container->setDefinition('doctrine.orm.driver', new Definition('Drupal\doctrine\Mapping\SchemaDriver'));
 
   // Registers doctrine configuration.
   $container->setDefinition('doctrine.orm.configuration', new Definition('Doctrine\ORM\Configuration'))
