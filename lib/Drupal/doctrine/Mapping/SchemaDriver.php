@@ -54,7 +54,7 @@ class SchemaDriver implements MappingDriver {
    */
   public function __construct(array $schemas, array $entityInfo) {
     // The entity to schema map building process depends on Entity API through
-    // this function, as the driver relies on hook_entity_info() meta-data.
+    // this constructor, as the driver relies on hook_entity_info() meta-data.
     foreach (array_values($entityInfo) as $entity) {
       if (isset($entity['entity class'])) {
         // Only map entities which declares an 'entity class' in their info
@@ -65,24 +65,21 @@ class SchemaDriver implements MappingDriver {
     }
 
     // The schema references building process depends on Schema API through
-    // this function, as the driver relies on hook_schema() meta-data.
+    // this constructor, as the driver relies on hook_schema() meta-data.
     foreach ($schemas as $name => $schema) {
       if (isset($schema['foreign keys'])) {
-        // Loops over the foreign keys definition to find an eventual relation
-        // with the corresponding schema of the entity. Because the name of the
-        // constraint does not follow any conventions, the driver cannot rely
-        // on the key, but is enforced to compare every keys with the schema.
+        // Loops over foreign keys definition to build a map of relationships
+        // with the corresponding schema. The name of the constraint does not
+        // follow any conventions so the driver cannot rely on the key.
         foreach (array_values($schema['foreign keys']) as $reference) {
-          // Compares the current value with the entity schema.
-          if ($reference['table'] == $this->$entityToTableMap[$class]) {
-            // When a schema containing a reference to the entity being
-            // checked, add its references with the name of the schema as key
-            // and foreign keys definition as value.
-            $references[$name] = $schema['foreign keys'];
-          }
+          // Enhances the schema referenced through this foreign key with an
+          // association meta-data bound to the schema referencing it.
+          // The columns referenced eventually produces ToMany relationships.
+          $schemas[$reference['table']]['associations'][$name] = $reference['columns'];
         }
       }
     }
+
     $this->schemas = $schemas;
     $this->entityInfo = $entityInfo;
   }
