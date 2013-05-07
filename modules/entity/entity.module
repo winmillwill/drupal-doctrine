@@ -6,9 +6,9 @@
  */
 
 function entity_init() {
-//   module_load_install('entity');
-//   entity_install();
-  $user = doctrine()->find('Drupal\entity\User', 1);
+  module_load_install('entity');
+  entity_install();
+//   $user = doctrine()->find('Drupal\entity\User', 1);
   $debug = true;
 }
 

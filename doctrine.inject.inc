@@ -10,9 +10,9 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Implements hook_inject_init().
+ * Implements hook_inject_build().
  */
-function doctrine_inject_init(ContainerBuilder $container) {
+function doctrine_inject_build(ContainerBuilder $container) {
   global $databases;
   // Configures an instance of Doctrine DBAL Connection which is a wrapper
   // around the underlying driver connection (which is in this case a PDO instance).
@@ -24,9 +24,6 @@ function doctrine_inject_init(ContainerBuilder $container) {
   ))
   ->setFactoryClass('Doctrine\DBAL\DriverManager')
   ->setFactoryMethod('getConnection');
-
-  // Registers schema driver implementation.
-  $container->setDefinition('doctrine.orm.driver', new Definition('Drupal\doctrine\Mapping\SchemaDriver'));
 
   // Registers doctrine configuration.
   $container->setDefinition('doctrine.orm.configuration', new Definition('Doctrine\ORM\Configuration'))

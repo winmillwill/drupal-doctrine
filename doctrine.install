@@ -52,3 +52,12 @@ function doctrine_requirements($phase) {
 
   return $requirements;
 }
+
+/**
+ * Implements hook_schema_alter().
+ */
+function doctrine_schema_alter(&$schema) {
+  // This has been fixed in Drupal 8.
+  $schema['role_permission']['foreign keys']['role']['table'] = 'role';
+  $schema['users_roles']['foreign keys']['role']['table'] = 'role';
+}

@@ -31,6 +31,7 @@ function doctrine_register() {
   $loader->registerNamespace('Doctrine\Common', __DIR__ . '/vendor/doctrine/common/lib');
   $loader->registerNamespace('Doctrine\DBAL', __DIR__ . '/vendor/doctrine/dbal/lib');
   $loader->registerNamespace('Doctrine\ORM', __DIR__ . '/vendor/doctrine/orm/lib');
+  $loader->registerNamespace('Inflect', __DIR__ . '/vendor/oodle/inflect/src');
 }
 
 /**
