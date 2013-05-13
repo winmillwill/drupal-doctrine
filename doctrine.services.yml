@@ -8,3 +8,6 @@ services:
   doctrine.orm.driver:
     class:              Drupal\doctrine\Mapping\SchemaDriver
     arguments:          [ @database.schema, @entity.info ]
+  doctrine.dbal.schema:
+    class:              Drupal\doctrine\Mapping\SchemaManager
+    arguments:          [ @doctrine.dbal.connection, @database.schema ]
