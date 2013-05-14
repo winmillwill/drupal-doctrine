@@ -1,7 +1,0 @@
-name = Doctrine ORM - Entities
-description = Integrates Drupal Entities with Doctrine ORM.
-core = 7.x
-package = Doctrine
-php = 5.3.3
-
-dependencies[] = doctrine

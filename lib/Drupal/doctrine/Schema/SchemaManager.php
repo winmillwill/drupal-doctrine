@@ -1,15 +1,15 @@
 <?php
 
-namespace Drupal\doctrine\Mapping;
+namespace Drupal\doctrine\Schema;
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 
-class SchemaAPIManager extends AbstractSchemaManager {
+class SchemaManager extends AbstractSchemaManager {
 
   /**
    * Array information about the whole database schema.
@@ -45,10 +45,10 @@ class SchemaAPIManager extends AbstractSchemaManager {
    */
   public function listTableDetails($tableName) {
     $columns = $this->listTableColumns($tableName);
-    $foreignKeys = $this->listTableForeignKeys($tableName);
+    $fkConstraints = $this->listTableForeignKeys($tableName);
     $indexes = $this->listTableIndexes($tableName);
 
-    return new Table($tableName, $columns, $indexes, $foreignKeys, FALSE, array());
+    return new Table($tableName, $columns, $indexes, $fkConstraints, FALSE, array());
   }
 
   /**
@@ -59,9 +59,9 @@ class SchemaAPIManager extends AbstractSchemaManager {
     $list = array();
 
     foreach ($this->schemas[$table]['fields'] as $columnName => $column) {
-      $type = $this->getColumnType($column);
+      $typeName = $this->getColumnType($column);
       $options = $this->getColumnOptions($column);
-      $list[$columnName] = new Column($columnName, $type, $options);
+      $list[$columnName] = new Column($columnName, Type::getType($typeName), $options);
     }
 
     return $list;
@@ -114,6 +114,8 @@ class SchemaAPIManager extends AbstractSchemaManager {
 
   /**
    * Removes the index size option.
+   *
+   * TODO: Check this feature can be kept.
    *
    * @param array $columns
    */
@@ -196,7 +198,7 @@ class SchemaAPIManager extends AbstractSchemaManager {
     $type = $column['type'];
     $size = isset($column['size']) ? $column['size'] : 'normal';
 
-    return Type::getType($map["$type:$size"]);
+    return $map["$type:$size"];
   }
 
   // Not used.

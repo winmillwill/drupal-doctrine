@@ -7,7 +7,7 @@
 
 function entity_init() {
   module_load_install('entity');
-//   entity_install();
+  entity_install();
 //   $user = doctrine()->find('Drupal\entity\User', 1);
   $debug = true;
 }
@@ -16,8 +16,8 @@ function entity_init() {
  * Implements hook_entity_info_alter().
  */
 function entity_entity_info_alter(&$entity_info) {
-  // Sets the entity class for users to a class test value.
   $entity_info['user']['entity class'] = 'Drupal\entity\User';
+  $entity_info['node']['entity class'] = 'Drupal\entity\Node';
 
   $entity_info['filter_format']['label'] = 'Filter Format';
   $entity_info['filter_format']['fieldable'] = FALSE;

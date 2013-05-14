@@ -14,9 +14,10 @@ use Doctrine\DBAL\Types\Type;
 use Inflect;
 use Doctrine\Common\Util\Inflector;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Drupal\doctrine\Schema\SchemaManager;
 
 /**
- * Reads the mapping meta-data from Schema API.
+ * Reads the mapping meta-data from Entity API.
  *
  * The meta-data building process depends on Entity API through this class, as
  * the driver relies on entity info. Using this feature adds a substantial
@@ -31,13 +32,11 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 class SchemaDriver implements MappingDriver {
 
   /**
-   * Array information about the whole database schema.
+   * Conceptual Data Model translated from the Schema API.
    *
-   * @var array
-   *
-   * @see drupal_get_schema()
+   * @var SchemaManager
    */
-  protected $schemas;
+  protected $schema;
 
   /**
    * Array of information about the entities.
@@ -48,15 +47,42 @@ class SchemaDriver implements MappingDriver {
    */
   protected $entityInfo;
 
+  /**
+   * @deprecated Use classToTableNames instead.
+   * @var unknown
+   */
   protected $entityToSchemaMap = array();
+
+  protected $tables = array();
+
+  /**
+   * Class to table name map.
+   *
+   * @var array
+   */
+  protected $classToTableNames = array();
+
+  /**
+   * Table to class name map.
+   *
+   * @var array
+   */
+  protected $classNamesForTables = array();
+
+  /**
+   * Many to many tables.
+   *
+   * @var array
+   */
+  protected $manyToManyTables = array();
 
   /**
    * Constructs a SchemaDriver.
    *
-   * @param array $schemas
+   * @param SchemaManager $schema
    * @param array $entityInfo
    */
-  public function __construct(array $schemas, array $entityInfo) {
+  public function __construct(SchemaManager $schema, array $entityInfo) {
     // The entity to schema map building process depends on Entity API through
     // this constructor, as the driver relies on hook_entity_info() meta-data.
     foreach (array_values($entityInfo) as $entity) {
@@ -64,13 +90,44 @@ class SchemaDriver implements MappingDriver {
         // Only map entities which declares an 'entity class' in their info
         // hook. Entity API requires the 'base table' meta data so the driver
         // can safely assumes it is existing and contains functional value.
-        $this->entityToSchemaMap[$entity['entity class']] = $entity['base table'];
+        $this->classToTableNames[$entity['entity class']] = $entity['base table'];
+        $this->classNamesForTables[$entity['base table']] = $entity['entity class'];
       }
     }
 
+    $tables = array();
     // The schema references building process depends on Schema API through
     // this constructor, as the driver relies on hook_schema() meta-data.
-    foreach ($schemas as $name => $schema) {
+    foreach ($schema->listTableNames() as $tableName) {
+      $tables[$tableName] = $this->schema->listTableDetails($tableName);
+    }
+
+    foreach ($tables as $tableName => $table) {
+      /* @var $table \Doctrine\DBAL\Schema\Table */
+      $foreignKeys = $table->getForeignKeys();
+
+      $allForeignKeyColumns = array();
+      foreach ($foreignKeys as $foreignKey) {
+        /* @var $foreignKey \Doctrine\DBAL\Schema\ForeignKeyConstraint */
+        $allForeignKeyColumns += $foreignKey->getLocalColumns();
+      }
+
+      $pkColumns = $table->getPrimaryKey()->getColumns();
+      sort($pkColumns);
+      sort($allForeignKeyColumns);
+
+      if ($pkColumns == $allForeignKeyColumns && count($foreignKeys) == 2) {
+        // A ManyToMany table is detected if the number of foreign keys is two,
+        // and the primary key is composed of those two foreign key constraints.
+        $this->manyToManyTables[$tableName] = $table;
+      }
+      else if (array_key_exists($tableName, $this->classNamesForTables)) {
+        // When the table name is mapped to an entity, adds it to the pool.
+        $this->tables[$tableName] = $table;
+      }
+    }
+
+
       if (isset($schema['foreign keys'])) {
         // Loops over foreign keys definition to build a map of relationships
         // with the corresponding schema. The name of the constraint does not
@@ -82,7 +139,6 @@ class SchemaDriver implements MappingDriver {
           $schemas[$reference['table']]['inversedBy'][$name] = array_flip($reference['columns']);
         }
       }
-    }
 
     $this->schemas = $schemas;
     $this->entityInfo = $entityInfo;
@@ -432,6 +488,8 @@ class SchemaDriver implements MappingDriver {
   /**
    * Maps Schema API types back into Doctrine types.
    *
+   * @deprecated Use the SchemaManager instead.
+   *
    * @param string $type
    * @param string $size
    * @return string
@@ -481,27 +539,13 @@ class SchemaDriver implements MappingDriver {
    * {@inheritDoc}
    */
   public function getAllClassNames() {
-    static $classes = array();
-
-    if (empty($classes)) {
-      foreach (array_keys($this->entityToSchemaMap) as $className) {
-        if (/* TODO put this back: class_exists($className) && */!$this->isTransient($className)) {
-          $classes[] = $className;
-        }
-      }
-    }
-
-    return $classes;
+    return array_keys($this->classToTableNames);
   }
 
   /**
    * {@inheritDoc}
    */
   public function isTransient($className) {
-    if (isset($this->entityToSchemaMap[$className])) {
-      return FALSE;
-    }
-
-    return !class_exists($className);
+    return TRUE;
   }
 }
