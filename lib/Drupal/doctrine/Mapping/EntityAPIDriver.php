@@ -32,12 +32,6 @@ use Inflect\Inflect;
 class EntityAPIDriver implements MappingDriver {
 
   /**
-   * @deprecated Use classToTableNames instead.
-   * @var unknown
-   */
-  protected $entityToSchemaMap = array();
-
-  /**
    * Class to table name map.
    *
    * @var array

@@ -17,26 +17,26 @@ class OneToOneTest extends MappingBaseTest {
     );
   }
 
-//   function testUnidirectional() {
-//     $this->createEntity('shipping', 'Shipping')
-//          ->setPrimaryKey('id');
+  function testUnidirectional() {
+    $this->createEntity('shipping', 'Shipping')
+         ->setPrimaryKey('id');
 
-//     $this->createEntity('product', 'Product')
-//          ->setPrimaryKey('id')
-//          ->setForeignKey('shipping_id', 'shipping', 'id')
-//          ->setUnique('shipping_id');
+    $this->createEntity('product', 'Product')
+         ->setPrimaryKey('id')
+         ->setForeignKey('shipping_id', 'shipping', 'id')
+         ->setUnique('shipping_id');
 
-//     $metadata = new ClassMetadataInfo('Product');
+    $metadata = new ClassMetadataInfo('Product');
 
-//     $driver = new SchemaDriver($this->schema, $this->entityInfo);
-//     $driver->loadMetadataForClass('Product', $metadata);
+    $driver = new SchemaDriver($this->schema, $this->entityInfo);
+    $driver->loadMetadataForClass('Product', $metadata);
 
-//     $association = $metadata->getAssociationMapping('shipping');
-//     $this->assertEqual('Shipping', $association['targetEntity']);
-//     $this->assertEqual('id', $association['joinColumns'][0]['referencedColumnName']);
-//     $this->assertEqual(TRUE, $association['joinColumns'][0]['unique']);
-//     $this->assertNull($association['mappedBy']);
-//   }
+    $association = $metadata->getAssociationMapping('shipping');
+    $this->assertEqual('Shipping', $association['targetEntity']);
+    $this->assertEqual('id', $association['joinColumns'][0]['referencedColumnName']);
+    $this->assertEqual(TRUE, $association['joinColumns'][0]['unique']);
+    $this->assertNull($association['mappedBy']);
+  }
 
   function testBidirectional() {
     $this->createEntity('customer', 'Customer')
