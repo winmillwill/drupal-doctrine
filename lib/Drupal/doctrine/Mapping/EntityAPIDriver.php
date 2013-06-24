@@ -132,6 +132,9 @@ class EntityAPIDriver implements MappingDriver {
     // the database platform support them and the entities generated contains
     // the relationships defined.
     $foreignKeys = $this->tables[$tableName]->getForeignKeys();
+    // Sometimes a foreign key can be composed of multiple columns, by getting
+    // all columns involved in a constraint, it is ensured to not map blindly
+    // a field which has a greater responsibility.
     $allForeignKeyColumns = $this->getAllForeignKeyColumns($foreignKeys);
 
     $ids = array();
