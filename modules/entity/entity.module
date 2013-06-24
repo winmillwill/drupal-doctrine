@@ -6,9 +6,8 @@
  */
 
 function entity_init() {
-  module_load_install('entity');
-  entity_install();
-//   $user = doctrine()->find('Drupal\entity\User', 1);
+  $user = doctrine()->find('Drupal\entity\User', 1);
+  $format = $user->getFilterFormat();
   $debug = true;
 }
 
