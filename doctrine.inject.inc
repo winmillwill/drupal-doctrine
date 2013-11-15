@@ -25,6 +25,10 @@ function doctrine_inject_build(ContainerBuilder $container) {
   ->setFactoryClass('Doctrine\DBAL\DriverManager')
   ->setFactoryMethod('getConnection');
 
+  // As we are early in the bootstrapping, we need to include file.inc in order to
+  // call file_directory_temp() below.
+  require_once(DRUPAL_ROOT . '/includes/file.inc');
+
   // Registers doctrine configuration.
   $container->setDefinition('doctrine.orm.configuration', new Definition('Doctrine\ORM\Configuration'))
   ->setFactoryClass('Doctrine\ORM\Tools\Setup')
