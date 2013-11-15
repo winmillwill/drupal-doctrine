@@ -5,7 +5,7 @@
  * Integrates Drupal Entities with Doctrine ORM.
  */
 
-function entity_init() {
+function doctrine_entity_init() {
   $user = doctrine()->find('Drupal\entity\User', 1);
   $format = $user->getFilterFormat();
   $debug = true;
@@ -14,7 +14,7 @@ function entity_init() {
 /**
  * Implements hook_entity_info_alter().
  */
-function entity_entity_info_alter(&$entity_info) {
+function doctrine_entity_entity_info_alter(&$entity_info) {
   $entity_info['user']['entity class'] = 'Drupal\entity\User';
   $entity_info['node']['entity class'] = 'Drupal\entity\Node';
 

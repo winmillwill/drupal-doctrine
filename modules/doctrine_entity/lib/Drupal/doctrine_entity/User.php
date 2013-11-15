@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\entity;
+namespace Drupal\doctrine_entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -133,7 +133,7 @@ class User
   /**
    * Get uid
    *
-   * @return integer 
+   * @return integer
    */
   public function getUid()
   {
@@ -149,14 +149,14 @@ class User
   public function setName($name)
   {
     $this->name = $name;
-  
+
     return $this;
   }
 
   /**
    * Get name
    *
-   * @return string 
+   * @return string
    */
   public function getName()
   {
@@ -172,14 +172,14 @@ class User
   public function setPass($pass)
   {
     $this->pass = $pass;
-  
+
     return $this;
   }
 
   /**
    * Get pass
    *
-   * @return string 
+   * @return string
    */
   public function getPass()
   {
@@ -195,14 +195,14 @@ class User
   public function setMail($mail)
   {
     $this->mail = $mail;
-  
+
     return $this;
   }
 
   /**
    * Get mail
    *
-   * @return string 
+   * @return string
    */
   public function getMail()
   {
@@ -218,14 +218,14 @@ class User
   public function setTheme($theme)
   {
     $this->theme = $theme;
-  
+
     return $this;
   }
 
   /**
    * Get theme
    *
-   * @return string 
+   * @return string
    */
   public function getTheme()
   {
@@ -241,14 +241,14 @@ class User
   public function setSignature($signature)
   {
     $this->signature = $signature;
-  
+
     return $this;
   }
 
   /**
    * Get signature
    *
-   * @return string 
+   * @return string
    */
   public function getSignature()
   {
@@ -264,14 +264,14 @@ class User
   public function setCreated($created)
   {
     $this->created = $created;
-  
+
     return $this;
   }
 
   /**
    * Get created
    *
-   * @return integer 
+   * @return integer
    */
   public function getCreated()
   {
@@ -287,14 +287,14 @@ class User
   public function setAccess($access)
   {
     $this->access = $access;
-  
+
     return $this;
   }
 
   /**
    * Get access
    *
-   * @return integer 
+   * @return integer
    */
   public function getAccess()
   {
@@ -310,14 +310,14 @@ class User
   public function setLogin($login)
   {
     $this->login = $login;
-  
+
     return $this;
   }
 
   /**
    * Get login
    *
-   * @return integer 
+   * @return integer
    */
   public function getLogin()
   {
@@ -333,14 +333,14 @@ class User
   public function setStatus($status)
   {
     $this->status = $status;
-  
+
     return $this;
   }
 
   /**
    * Get status
    *
-   * @return boolean 
+   * @return boolean
    */
   public function getStatus()
   {
@@ -356,14 +356,14 @@ class User
   public function setTimezone($timezone)
   {
     $this->timezone = $timezone;
-  
+
     return $this;
   }
 
   /**
    * Get timezone
    *
-   * @return string 
+   * @return string
    */
   public function getTimezone()
   {
@@ -379,14 +379,14 @@ class User
   public function setLanguage($language)
   {
     $this->language = $language;
-  
+
     return $this;
   }
 
   /**
    * Get language
    *
-   * @return string 
+   * @return string
    */
   public function getLanguage()
   {
@@ -402,14 +402,14 @@ class User
   public function setPicture($picture)
   {
     $this->picture = $picture;
-  
+
     return $this;
   }
 
   /**
    * Get picture
    *
-   * @return integer 
+   * @return integer
    */
   public function getPicture()
   {
@@ -425,14 +425,14 @@ class User
   public function setInit($init)
   {
     $this->init = $init;
-  
+
     return $this;
   }
 
   /**
    * Get init
    *
-   * @return string 
+   * @return string
    */
   public function getInit()
   {
@@ -448,14 +448,14 @@ class User
   public function setData($data)
   {
     $this->data = $data;
-  
+
     return $this;
   }
 
   /**
    * Get data
    *
-   * @return string 
+   * @return string
    */
   public function getData()
   {
@@ -471,14 +471,14 @@ class User
   public function setFilterFormat(\Drupal\entity\FilterFormat $filterFormat = null)
   {
     $this->filterFormat = $filterFormat;
-  
+
     return $this;
   }
 
   /**
    * Get filterFormat
    *
-   * @return \Drupal\entity\FilterFormat 
+   * @return \Drupal\entity\FilterFormat
    */
   public function getFilterFormat()
   {

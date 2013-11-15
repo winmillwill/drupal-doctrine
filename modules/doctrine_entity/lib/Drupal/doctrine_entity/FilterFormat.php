@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\entity;
+namespace Drupal\doctrine_entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -53,7 +53,7 @@ class FilterFormat
   /**
    * Get format
    *
-   * @return string 
+   * @return string
    */
   public function getFormat()
   {
@@ -69,14 +69,14 @@ class FilterFormat
   public function setName($name)
   {
     $this->name = $name;
-  
+
     return $this;
   }
 
   /**
    * Get name
    *
-   * @return string 
+   * @return string
    */
   public function getName()
   {
@@ -92,14 +92,14 @@ class FilterFormat
   public function setCache($cache)
   {
     $this->cache = $cache;
-  
+
     return $this;
   }
 
   /**
    * Get cache
    *
-   * @return boolean 
+   * @return boolean
    */
   public function getCache()
   {
@@ -115,14 +115,14 @@ class FilterFormat
   public function setStatus($status)
   {
     $this->status = $status;
-  
+
     return $this;
   }
 
   /**
    * Get status
    *
-   * @return boolean 
+   * @return boolean
    */
   public function getStatus()
   {
@@ -138,14 +138,14 @@ class FilterFormat
   public function setWeight($weight)
   {
     $this->weight = $weight;
-  
+
     return $this;
   }
 
   /**
    * Get weight
    *
-   * @return integer 
+   * @return integer
    */
   public function getWeight()
   {

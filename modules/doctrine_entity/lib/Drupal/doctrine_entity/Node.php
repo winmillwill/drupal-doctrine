@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\entity;
+namespace Drupal\doctrine_entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -112,7 +112,7 @@ class Node
   /**
    * Get nid
    *
-   * @return integer 
+   * @return integer
    */
   public function getNid()
   {
@@ -128,14 +128,14 @@ class Node
   public function setType($type)
   {
     $this->type = $type;
-  
+
     return $this;
   }
 
   /**
    * Get type
    *
-   * @return string 
+   * @return string
    */
   public function getType()
   {
@@ -151,14 +151,14 @@ class Node
   public function setLanguage($language)
   {
     $this->language = $language;
-  
+
     return $this;
   }
 
   /**
    * Get language
    *
-   * @return string 
+   * @return string
    */
   public function getLanguage()
   {
@@ -174,14 +174,14 @@ class Node
   public function setTitle($title)
   {
     $this->title = $title;
-  
+
     return $this;
   }
 
   /**
    * Get title
    *
-   * @return string 
+   * @return string
    */
   public function getTitle()
   {
@@ -197,14 +197,14 @@ class Node
   public function setStatus($status)
   {
     $this->status = $status;
-  
+
     return $this;
   }
 
   /**
    * Get status
    *
-   * @return integer 
+   * @return integer
    */
   public function getStatus()
   {
@@ -220,14 +220,14 @@ class Node
   public function setCreated($created)
   {
     $this->created = $created;
-  
+
     return $this;
   }
 
   /**
    * Get created
    *
-   * @return integer 
+   * @return integer
    */
   public function getCreated()
   {
@@ -243,14 +243,14 @@ class Node
   public function setChanged($changed)
   {
     $this->changed = $changed;
-  
+
     return $this;
   }
 
   /**
    * Get changed
    *
-   * @return integer 
+   * @return integer
    */
   public function getChanged()
   {
@@ -266,14 +266,14 @@ class Node
   public function setComment($comment)
   {
     $this->comment = $comment;
-  
+
     return $this;
   }
 
   /**
    * Get comment
    *
-   * @return integer 
+   * @return integer
    */
   public function getComment()
   {
@@ -289,14 +289,14 @@ class Node
   public function setPromote($promote)
   {
     $this->promote = $promote;
-  
+
     return $this;
   }
 
   /**
    * Get promote
    *
-   * @return integer 
+   * @return integer
    */
   public function getPromote()
   {
@@ -312,14 +312,14 @@ class Node
   public function setSticky($sticky)
   {
     $this->sticky = $sticky;
-  
+
     return $this;
   }
 
   /**
    * Get sticky
    *
-   * @return integer 
+   * @return integer
    */
   public function getSticky()
   {
@@ -335,14 +335,14 @@ class Node
   public function setTnid($tnid)
   {
     $this->tnid = $tnid;
-  
+
     return $this;
   }
 
   /**
    * Get tnid
    *
-   * @return integer 
+   * @return integer
    */
   public function getTnid()
   {
@@ -358,14 +358,14 @@ class Node
   public function setTranslate($translate)
   {
     $this->translate = $translate;
-  
+
     return $this;
   }
 
   /**
    * Get translate
    *
-   * @return integer 
+   * @return integer
    */
   public function getTranslate()
   {
@@ -381,14 +381,14 @@ class Node
   public function setUser(\Drupal\entity\User $user = null)
   {
     $this->user = $user;
-  
+
     return $this;
   }
 
   /**
    * Get user
    *
-   * @return \Drupal\entity\User 
+   * @return \Drupal\entity\User
    */
   public function getUser()
   {
