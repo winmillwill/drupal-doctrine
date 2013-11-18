@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Drupal\doctrine\Schema\SchemaManager;
 
 use Inflect\Inflect;
+use Doctrine\DBAL\Schema\Table;
 
 /**
  * Reads the mapping meta-data from Entity API.
@@ -86,9 +87,15 @@ class EntityAPIDriver implements MappingDriver {
     // Categorizes each tables: they can represent an entity, or a join table in
     // a ManytoMany relationship. Other uses cases are difficult to reverse
     // engineer from a Conceptual Data Model so the driver just ignore them.
-    foreach ($tables as $tableName => $table) {
+    foreach ($tables as $tableName => /* @var $table Table */ $table) {
       $foreignKeys = $table->getForeignKeys();
       $allForeignKeyColumns = $this->getAllForeignKeyColumns($foreignKeys);
+
+      if (!$table->hasPrimaryKey()) {
+        // Table has no primary key. Doctrine does not support reverse
+        // engineering from tables that don't have a primary key.
+        continue;
+      }
 
       $pkColumns = $table->getPrimaryKey()->getColumns();
       sort($pkColumns);
