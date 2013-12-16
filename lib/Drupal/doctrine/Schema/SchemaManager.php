@@ -9,6 +9,13 @@ use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 
+/**
+ * SchemaManager is used to inspect drupal database structure from Schema API.
+ *
+ * @since 7.x-1.0
+ * @author Sylvain Lecoy <sylvain.lecoy@gmail.com>
+ *
+ */
 class SchemaManager extends AbstractSchemaManager {
 
   /**
